@@ -1,0 +1,302 @@
+import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/core/colors.dart';
+import 'package:food_recipes_afame/shared/commonWidgets.dart';
+
+class SubscriptionView extends StatefulWidget {
+  const SubscriptionView({super.key});
+
+  @override
+  State<SubscriptionView> createState() => _SubscriptionViewState();
+}
+
+class _SubscriptionViewState extends State<SubscriptionView> {
+  bool isMonthlySelected = true;
+
+  void togglePlan(bool monthly) {
+    setState(() {
+      isMonthlySelected = monthly;
+    });
+  }
+
+  Widget buildToggleButton(
+    String text,
+    bool selected,
+    VoidCallback onTap, {
+    Widget? badge,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+            decoration: BoxDecoration(
+              color: selected ? Colors.yellow.shade100 : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: commonText(
+              text,
+              size: 16,
+              isBold: true,
+              color: selected ? AppColors.primary : Colors.grey.shade700,
+            ),
+          ),
+          if (badge != null) ...[const SizedBox(width: 6), badge],
+        ],
+      ),
+    );
+  }
+
+  Widget buildFeature(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: AppColors.primary.withOpacity(0.7),
+            size: 20,
+          ),
+          const SizedBox(width: 8),
+          Expanded(child: commonText(text, size: 14)),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPlanCard({
+    required String title,
+    required String subtitle,
+    required String price,
+    required List<String> features,
+    required Widget button,
+    bool isMostPopular = false,
+    Color backgroundColor = Colors.white,
+    Color borderColor = Colors.grey,
+    Widget? bottomWidget,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
+      child: Material(
+        elevation: 8,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: borderColor),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (isMostPopular) const SizedBox(height: 12),
+
+              commonText(title, size: 21, isBold: true),
+              const SizedBox(height: 6),
+              commonText(subtitle, size: 14, isBold: true),
+              const SizedBox(height: 12),
+
+              commonText(price, size: 24, isBold: true, color: Colors.black),
+              const SizedBox(height: 12),
+
+              if (isMostPopular)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: commonText(
+                    "7-day free trial\nTry all premium features free for 7 days",
+                    size: 14,
+                    isBold: true,
+                    color: AppColors.primary,
+                  ),
+                ),
+
+              ...features.map(buildFeature).toList(),
+
+              const SizedBox(height: 16),
+
+              button,
+
+              const SizedBox(height: 4),
+              if (bottomWidget != null) ...[SizedBox(height: 8), bottomWidget],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final freePlanFeatures = [
+      "Access to 30 recipes",
+      "Basic recipe search",
+      "One sample menu per week",
+      "10 favorite recipes",
+      "Community forums",
+    ];
+
+    final premiumPlanFeatures = [
+      "Unlimited recipes",
+      "Advanced filtering",
+      "Personalized weekly menus",
+      "Smart shopping lists",
+      "Save unlimited favorites",
+      "Recipe scaling",
+      "Offline access",
+      "Ad-free experience",
+    ];
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        title: commonText(
+          "Choose Your Plan",
+          size: 20,
+          isBold: true,
+          color: AppColors.primary,
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        child: Column(
+          children: [
+            commonText(
+              "Select the plan that fits your culinary journey",
+              size: 16,
+            ),
+            const SizedBox(height: 12),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildToggleButton(
+                  "Monthly",
+                  isMonthlySelected,
+                  () => togglePlan(true),
+                ),
+                const SizedBox(width: 16),
+                buildToggleButton(
+                  "Yearly",
+                  !isMonthlySelected,
+                  () => togglePlan(false),
+                  badge: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade300,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: commonText(
+                      "Save 17%",
+                      size: 12,
+                      color: AppColors.white,
+                      isBold: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            Expanded(
+              child: ListView(
+                children: [
+                  buildPlanCard(
+                    title: "Free Plan",
+                    subtitle: "Basic features to get started",
+                    price: "€0 forever",
+                    features: freePlanFeatures,
+                    button: GestureDetector(
+                      onTap: () {
+                        // TODO: Start free trial action
+                      },
+                      child: Container(
+                        height: 48,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.primary),
+                        ),
+                        child: Center(
+                          child: commonText(
+                            "Start Free Trial",
+                            size: 16,
+                            color: AppColors.primary,
+                            isBold: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Column(
+                        children: [
+                          buildPlanCard(
+                            isMostPopular: true,
+                            title: "Premium Plan",
+                            subtitle: "Full access to all features",
+                            price: "€4.99 /month",
+                            features: premiumPlanFeatures,
+                            backgroundColor: Colors.yellow.shade50,
+                            borderColor: AppColors.primary,
+                            button: commonButton(
+                              "Get Started",
+
+                              onTap: () {
+                                // TODO: Get started with premium plan
+                              },
+                            ),
+                            bottomWidget: Center(
+                              child: commonText(
+                                "No commitment. Cancel anytime.",
+                                size: 12,
+                                color: Colors.black54,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: commonText(
+                          "Most Popular",
+                          size: 16,
+                          color: AppColors.white,
+                          isBold: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
