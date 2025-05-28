@@ -58,6 +58,8 @@ class ImagePaths {
       'assets/icons/profile/trems_condition.png';
   static const String logoutIcon = 'assets/icons/profile/logout.png';
   static const String deleteIcon = "assets/icons/profile/delete.png";
+  static const String callIcon = "assets/icons/profile/call.png";
+  static const String performance = "assets/icons/profile/performance.png";
 
   //others icon
   static const String searchIcon =

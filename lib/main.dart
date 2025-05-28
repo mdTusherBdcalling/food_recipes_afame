@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Profile/edit_profile_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/root_view.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         fontFamily: 'Roboto', // optional, change as per your font
       ),
-      home: MainScreen(),
+      home: EditProfileView(),
     );
   }
 }
