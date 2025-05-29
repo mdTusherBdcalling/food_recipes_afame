@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/Authentication/email_verify_view.dart';
+import 'package:food_recipes_afame/Authentication/signin_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
-import 'package:get/get.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -163,8 +163,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // TODO: Navigate to Sign In page
-                        Get.back();
+                        navigateToPage(SigninView());
                       },
                       child: commonText(
                         "Sign In",

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Authentication/signin_view.dart';
+import 'package:food_recipes_afame/Authentication/signup_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
@@ -82,7 +84,7 @@ class RoleChooseView extends StatelessWidget {
                     "Sign In",
 
                     onTap: () {
-                      // TODO: Navigate to Sign In page
+                      navigateToPage(SigninView());
                     },
                   ),
 
@@ -91,7 +93,7 @@ class RoleChooseView extends StatelessWidget {
                   // Sign Up Button (Outlined)
                   GestureDetector(
                     onTap: () {
-                      // TODO: Navigate to Sign Up page
+                      navigateToPage(SignUpView());
                     },
                     child: Container(
                       height: 50,

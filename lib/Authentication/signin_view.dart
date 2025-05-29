@@ -3,6 +3,7 @@ import 'package:food_recipes_afame/Authentication/signup_view.dart';
 import 'package:food_recipes_afame/Authentication/forget_password_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
+import 'package:food_recipes_afame/root_view.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -105,7 +106,12 @@ class _SigninViewState extends State<SigninView> {
 
               const SizedBox(height: 24),
 
-              commonButton("Sign In", onTap: () {}),
+              commonButton(
+                "Sign In",
+                onTap: () {
+                  navigateToPage(MainScreen());
+                },
+              ),
 
               const SizedBox(height: 32),
 

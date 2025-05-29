@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:get/get.dart';
 
 class QuestionnairePage extends StatefulWidget {
   final String title;
@@ -196,8 +197,7 @@ class _QuestionnaireFlowState extends State<QuestionnaireFlow> {
         currentStep++;
       });
     } else {
-      // All done, navigate or show summary
-      print("Questionnaire complete!");
+      Get.back();
     }
   }
 

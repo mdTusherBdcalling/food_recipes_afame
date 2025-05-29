@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Profile/plan_management_view.dart';
+import 'package:food_recipes_afame/Authentication/question_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
@@ -95,7 +95,7 @@ class EditProfileView extends StatelessWidget {
             // Edit preferences option
             GestureDetector(
               onTap: () {
-                navigateToPage(PlanManagementView());
+                navigateToPage(QuestionnaireFlow());
               },
               child: Row(
                 children: [
