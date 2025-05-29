@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Blogs/blog_details_page.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
 
@@ -17,18 +18,34 @@ class _BlogsViewState extends State<BlogsView> {
     {
       "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
       "title": "Learn How to Become a Great Writer Right Now!",
+      "description":
+          "Explore the rich history and impact of spices on cuisines around the world.",
+      "date": "Jan 27, 2025",
+      "comments": "5 Comments",
     },
     {
       "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
       "title": "Cooking Secrets From The Pros You Should Know",
+      "description":
+          "Explore the rich history and impact of spices on cuisines around the world.",
+      "date": "Jan 27, 2025",
+      "comments": "5 Comments",
     },
     {
       "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
       "title": "Top 10 Healthy Recipes for Every Season",
+      "description":
+          "Explore the rich history and impact of spices on cuisines around the world.",
+      "date": "Jan 27, 2025",
+      "comments": "5 Comments",
     },
     {
       "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
       "title": "Top 10 Healthy Recipes for Every Season",
+      "description":
+          "Explore the rich history and impact of spices on cuisines around the world.",
+      "date": "Jan 27, 2025",
+      "comments": "5 Comments",
     },
   ];
 
@@ -37,7 +54,9 @@ class _BlogsViewState extends State<BlogsView> {
     (index) => {
       "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
       "title": "The History of Spices and Their Cultural Significance.",
-      "date": "January 27, 2025",
+      "description":
+          "Explore the rich history and impact of spices on cuisines around the world.",
+      "date": "Jan 27, 2025",
       "comments": "5 Comments",
     },
   );
@@ -99,20 +118,27 @@ class _BlogsViewState extends State<BlogsView> {
                             color: AppColors.white,
                           ),
                           const SizedBox(height: 8),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 6,
-                            ),
-                            child: commonText(
-                              "Read more",
-                              size: 14,
-                              color: AppColors.primary,
-                              isBold: true,
+                          InkWell(
+                            onTap: () {
+                              navigateToPage(
+                                BlogDetailsPage(blog: recentBlogs[index]),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 6,
+                              ),
+                              child: commonText(
+                                "Read more",
+                                size: 14,
+                                color: AppColors.primary,
+                                isBold: true,
+                              ),
                             ),
                           ),
                         ],
@@ -207,12 +233,7 @@ class _BlogsViewState extends State<BlogsView> {
               children: [
                 _buildBanner(),
                 const SizedBox(height: 24),
-                commonText(
-                  "Recent Blogs",
-                  size: 18,
-                  isBold: true,
-                  color: Colors.black87,
-                ),
+                commonText("Recent Blogs", size: 18, isBold: true),
                 const SizedBox(height: 12),
                 GridView.builder(
                   shrinkWrap: true,
@@ -225,7 +246,14 @@ class _BlogsViewState extends State<BlogsView> {
                     childAspectRatio: 0.75,
                   ),
                   itemBuilder:
-                      (context, index) => _buildBlogCard(recentBlogs[index]),
+                      (context, index) => InkWell(
+                        onTap: () {
+                          navigateToPage(
+                            BlogDetailsPage(blog: blogBanners[index]),
+                          );
+                        },
+                        child: _buildBlogCard(recentBlogs[index]),
+                      ),
                 ),
               ],
             ),
