@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/HomePage/recipe_details_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonDesigns.dart';
@@ -51,6 +52,7 @@ class _ExploreViewState extends State<ExploreView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
     {
       "imageUrl":
@@ -59,6 +61,7 @@ class _ExploreViewState extends State<ExploreView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
     {
       "imageUrl":
@@ -66,6 +69,7 @@ class _ExploreViewState extends State<ExploreView> {
       "region": "Middle East",
       "title": "Asia",
       "time": "25 Min",
+      "isFavorite": false,
       "difficulty": "Easy",
     },
     {
@@ -75,6 +79,7 @@ class _ExploreViewState extends State<ExploreView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
     {
       "imageUrl":
@@ -83,6 +88,7 @@ class _ExploreViewState extends State<ExploreView> {
       "title": "Asia",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
     {
       "imageUrl":
@@ -91,6 +97,7 @@ class _ExploreViewState extends State<ExploreView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
   ];
 
@@ -227,19 +234,22 @@ class _ExploreViewState extends State<ExploreView> {
                   return SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.45,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: RecipeCard(
                         imageUrl: recipe['imageUrl'],
                         region: recipe['region'],
                         title: recipe['title'],
                         time: recipe['time'],
                         difficulty: recipe['difficulty'],
-                        isFavorite: true,
+                        isFavorite: recipe['isFavorite'],
                         onFavoriteTap: () {
-                          // TODO: toggle favorite
+                          setState(() {
+                            filteredRecipes[index]['isFavorite'] =
+                                !filteredRecipes[index]['isFavorite'];
+                          });
                         },
                         onTap: () {
-                          // TODO: navigate to recipe details
+                          navigateToPage(const RecipeDetailsView());
                         },
                       ),
                     ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/HomePage/notifications_view.dart';
+import 'package:food_recipes_afame/HomePage/recipe_details_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonDesigns.dart';
@@ -14,18 +16,21 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
 
+  // Sample data with mutable isFavorite state
   final List<Map<String, dynamic>> trending = [
     {
       "title": "Healthy Taco Salad with fresh vegetable",
       "imageUrl": "https://via.placeholder.com/300x180.png?text=Taco+Salad",
       "author": "Olivia Rizka",
       "time": "12 Min",
+      "isFavorite": false,
     },
     {
       "title": "Asian white with extra vegetables",
       "imageUrl": "https://via.placeholder.com/300x180.png?text=Asian+Veg",
       "author": "James",
       "time": "18 Min",
+      "isFavorite": false,
     },
   ];
 
@@ -38,6 +43,7 @@ class _HomeViewState extends State<HomeView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
   );
 
@@ -50,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
       "title": "Moroccan Chicken Tagine",
       "time": "25 Min",
       "difficulty": "Easy",
+      "isFavorite": false,
     },
   );
 
@@ -57,7 +64,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -76,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                   const SizedBox(height: 24),
                   _buildSectionTitle("Popular From Your Heritage"),
                   _buildRecipeGrid(heritage),
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),
@@ -90,9 +96,9 @@ class _HomeViewState extends State<HomeView> {
     return Container(
       height: 200,
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(16),
         ),
@@ -126,6 +132,24 @@ class _HomeViewState extends State<HomeView> {
               GestureDetector(
                 onTap: () {
                   // TODO: Navigate to notifications
+                  navigateToPage(
+                    NotificationsView(
+                      notifications: [
+                        {
+                          "message": "New recipe is available here!",
+                          "time": "16 minutes ago",
+                        },
+                        {
+                          "message": "New recipe is available here!",
+                          "time": "16 minutes ago",
+                        },
+                        {
+                          "message": "New recipe is available here!",
+                          "time": "16 minutes ago",
+                        },
+                      ],
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -146,7 +170,6 @@ class _HomeViewState extends State<HomeView> {
             '',
             TextEditingController(),
             hintText: "Search Recipe, cuisines...",
-
             assetIconPath: ImagePaths.searchIcon,
             borderWidth: 0.0,
             enable: true,
@@ -178,7 +201,6 @@ class _HomeViewState extends State<HomeView> {
               Container(
                 width: 300,
                 padding: const EdgeInsets.all(16),
-
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -234,9 +256,16 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildRecipeGrid(List<Map<String, dynamic>> data) {
     return GridView.builder(
-      padding: EdgeInsets.all(0),
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: data.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 0.85,
+      ),
       itemBuilder: (context, index) {
         final item = data[index];
 
@@ -248,19 +277,18 @@ class _HomeViewState extends State<HomeView> {
             title: item['title'],
             time: item['time'],
             difficulty: item['difficulty'],
-            isFavorite: true,
-            onFavoriteTap: () {},
-            onTap: () {},
+            isFavorite: item['isFavorite'],
+            onFavoriteTap: () {
+              setState(() {
+                data[index]['isFavorite'] = !data[index]['isFavorite'];
+              });
+            },
+            onTap: () {
+              navigateToPage(const RecipeDetailsView());
+            },
           ),
         );
       },
-      itemCount: data.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        childAspectRatio: 0.85,
-      ),
     );
   }
 }

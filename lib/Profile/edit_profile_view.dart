@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Profile/plan_management_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:get/get.dart';
 
 class EditProfileView extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -84,7 +86,7 @@ class EditProfileView extends StatelessWidget {
             commonButton(
               "Save",
               onTap: () {
-                // TODO: Save action
+                Get.back();
               },
             ),
 
@@ -93,7 +95,7 @@ class EditProfileView extends StatelessWidget {
             // Edit preferences option
             GestureDetector(
               onTap: () {
-                // TODO: Navigate to edit preferences
+                navigateToPage(PlanManagementView());
               },
               child: Row(
                 children: [

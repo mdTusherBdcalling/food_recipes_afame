@@ -6,41 +6,47 @@ import 'package:food_recipes_afame/shared/commonWidgets.dart';
 
 import 'package:get/get.dart';
 
-class RecipeDetailsView extends StatelessWidget {
+class RecipeDetailsView extends StatefulWidget {
   const RecipeDetailsView({super.key});
 
   @override
+  State<RecipeDetailsView> createState() => _RecipeDetailsViewState();
+}
+
+class _RecipeDetailsViewState extends State<RecipeDetailsView> {
+  final List<String> ingredients = [
+    '2 cups of main ingredient',
+    '1 tablespoon of seasoning',
+    '3 cloves of garlic, minced',
+    '1/2 cup of broth or water',
+    'Fresh herbs to taste',
+    'Salt and pepper to taste',
+  ];
+
+  final List<String> instructions = [
+    'Prepare all ingredients by washing and chopping as needed',
+    'Heat the cooking vessel and add oil or butter',
+    'Add aromatics and cook until fragrant',
+    'Add main ingredients and cook according to the recipe',
+    'Season to taste and adjust flavors',
+    'Serve hot with appropriate accompaniments',
+  ];
+
+  final List<Map<String, dynamic>> relatedRecipes = List.generate(
+    3,
+    (index) => {
+      "imageUrl":
+          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
+      "region": "Middle East",
+      "title": "Moroccan Chicken Tagine",
+      "time": "25 Min",
+      "difficulty": "Easy",
+      "isFavorite": false,
+    },
+  );
+
+  @override
   Widget build(BuildContext context) {
-    final List<String> ingredients = [
-      '2 cups of main ingredient',
-      '1 tablespoon of seasoning',
-      '3 cloves of garlic, minced',
-      '1/2 cup of broth or water',
-      'Fresh herbs to taste',
-      'Salt and pepper to taste',
-    ];
-
-    final List<String> instructions = [
-      'Prepare all ingredients by washing and chopping as needed',
-      'Heat the cooking vessel and add oil or butter',
-      'Add aromatics and cook until fragrant',
-      'Add main ingredients and cook according to the recipe',
-      'Season to taste and adjust flavors',
-      'Serve hot with appropriate accompaniments',
-    ];
-
-    final relatedRecipes = List.generate(
-      3,
-      (index) => {
-        "imageUrl":
-            "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
-        "region": "Middle East",
-        "title": "Moroccan Chicken Tagine",
-        "time": "25 Min",
-        "difficulty": "Easy",
-      },
-    );
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -246,9 +252,16 @@ class RecipeDetailsView extends StatelessWidget {
                                 title: item['title']!,
                                 time: item['time']!,
                                 difficulty: item['difficulty']!,
-                                isFavorite: true,
-                                onFavoriteTap: () {},
-                                onTap: () {},
+                                isFavorite: item["isFavorite"]!,
+                                onFavoriteTap: () {
+                                  setState(() {
+                                    relatedRecipes[index]['isFavorite'] =
+                                        !relatedRecipes[index]['isFavorite'];
+                                  });
+                                },
+                                onTap: () {
+                                  navigateToPage(const RecipeDetailsView());
+                                },
                               ),
                             );
                           },

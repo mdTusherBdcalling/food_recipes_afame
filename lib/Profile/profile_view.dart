@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Profile/edit_profile_view.dart';
 import 'package:food_recipes_afame/Profile/my_recipes_view.dart';
 import 'package:food_recipes_afame/Profile/privacy_policy.dart';
 import 'package:food_recipes_afame/Profile/settings.dart';
@@ -70,7 +71,7 @@ class ProfileView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // TODO: Edit profile action
+                      navigateToPage(EditProfileView());
                     },
                     child: Column(
                       children: [

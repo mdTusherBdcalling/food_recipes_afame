@@ -93,7 +93,8 @@ class RecipeCard extends StatelessWidget {
                       backgroundColor: Colors.white70,
                       child: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey.shade700,
+                        color:
+                            isFavorite ? Colors.red.shade600 : AppColors.black,
                         size: 20,
                       ),
                     ),

@@ -305,95 +305,73 @@ Widget commonNumberInputField({
   required TextEditingController controller,
   required Function(int) onChanged,
 }) {
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 4),
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
-    ),
-    child: Row(
-      children: [
-        SizedBox(width: 10),
-        Expanded(
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hintText,
-              hintStyle: const TextStyle(color: Colors.grey),
-              isCollapsed: true,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
-            ),
-            onChanged: (text) {
-              final parsed = int.tryParse(text);
-              if (parsed != null) {
-                onChanged(parsed);
-              }
-            },
-            style: const TextStyle(fontSize: 14),
-          ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      commonText(hintText, size: 16, fontWeight: FontWeight.w500),
+      SizedBox(height: 4),
+      Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
         ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
           children: [
-            InkWell(
-              child: const Icon(Icons.keyboard_arrow_up),
-              onTap: () {
-                final current = int.tryParse(controller.text) ?? 0;
-                final updated = current + 1;
-                controller.text = updated.toString();
-                onChanged(updated);
-              },
+            SizedBox(width: 10),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                ),
+                onChanged: (text) {
+                  final parsed = int.tryParse(text);
+                  if (parsed != null) {
+                    onChanged(parsed);
+                  }
+                },
+                style: const TextStyle(fontSize: 14),
+              ),
             ),
-            InkWell(
-              child: const Icon(Icons.keyboard_arrow_down),
-              onTap: () {
-                final current = int.tryParse(controller.text) ?? 0;
-                if (current > 0) {
-                  final updated = current - 1;
-                  controller.text = updated.toString();
-                  onChanged(updated);
-                }
-              },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  child: const Icon(Icons.arrow_drop_up_outlined),
+                  onTap: () {
+                    final current = int.tryParse(controller.text) ?? 0;
+                    final updated = current + 1;
+                    controller.text = updated.toString();
+                    onChanged(updated);
+                  },
+                ),
+                InkWell(
+                  child: const Icon(Icons.arrow_drop_down),
+                  onTap: () {
+                    final current = int.tryParse(controller.text) ?? 0;
+                    if (current > 0) {
+                      final updated = current - 1;
+                      controller.text = updated.toString();
+                      onChanged(updated);
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }
-
-// Widget commonRadioGroupWithWidgetsOnly({
-//   required String selectedValue,
-//   required List<Widget> widgets, // Widgets with text/row layout
-//   required Function(String) onChanged,
-// }) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: List.generate(widgets.length, (index) {
-//       final val = index.toString(); // use index as unique string value
-//       return Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               Radio<String>(
-//                 value: val,
-//                 groupValue: selectedValue,
-//                 onChanged: (newVal) => onChanged(newVal!),
-//                 activeColor: AppColors.yellow,
-//               ),
-//               Expanded(child: widgets[index]),
-//             ],
-//           ),
-//         ],
-//       );
-//     }),
-//   );
-// }
 
 Widget commonTextField({
   TextEditingController? controller,

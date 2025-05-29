@@ -60,6 +60,8 @@ class ImagePaths {
   static const String deleteIcon = "assets/icons/profile/delete.png";
   static const String callIcon = "assets/icons/profile/call.png";
   static const String performance = "assets/icons/profile/performance.png";
+  static const String managePlanIcon = "assets/icons/profile/manage_icon.png";
+  static const String uploadIcon = "assets/icons/profile/Upload.png";
 
   //others icon
   static const String searchIcon =
