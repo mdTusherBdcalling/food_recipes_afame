@@ -1,9 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/core/colors.dart';
+import 'package:food_recipes_afame/root_view.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:get/get.dart';
 
 class SubscriptionView extends StatefulWidget {
-  const SubscriptionView({super.key});
+  bool fromSignup;
+  SubscriptionView({super.key, this.fromSignup = false});
 
   @override
   State<SubscriptionView> createState() => _SubscriptionViewState();
@@ -221,7 +226,11 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     features: freePlanFeatures,
                     button: GestureDetector(
                       onTap: () {
-                        // TODO: Start free trial action
+                        if (widget.fromSignup) {
+                          navigateToPage(MainScreen());
+                        } else {
+                          Get.back();
+                        }
                       },
                       child: Container(
                         height: 48,

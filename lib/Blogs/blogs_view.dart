@@ -141,6 +141,7 @@ class _BlogsViewState extends State<BlogsView> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 24),
                         ],
                       ),
                     ),
@@ -149,6 +150,7 @@ class _BlogsViewState extends State<BlogsView> {
               );
             },
           ),
+
           Positioned(
             bottom: 12,
             left: 0,

@@ -165,12 +165,7 @@ class _SignUpViewState extends State<SignUpView> {
                       onTap: () {
                         navigateToPage(SigninView());
                       },
-                      child: commonText(
-                        "Sign In",
-                        size: 14,
-                        color: AppColors.primary,
-                        isBold: true,
-                      ),
+                      child: commonText("Sign In", size: 14, isBold: true),
                     ),
                   ],
                 ),

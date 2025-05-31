@@ -1,4 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/Subscription/subscription_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
 import 'package:get/get.dart';
@@ -123,9 +126,11 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               haveNextIcon: true,
               onTap:
                   selectedOptionIndex == null
-                      ? null
+                      ? () {
+                        Get.snackbar("Empty", "Please sellect an option");
+                      }
                       : () {
-                        // TODO: Save answer if needed
+                        selectedOptionIndex = null;
                         widget.onNext();
                       },
             ),
@@ -137,7 +142,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 }
 
 class QuestionnaireFlow extends StatefulWidget {
-  const QuestionnaireFlow({super.key});
+  bool fromSignup;
+  QuestionnaireFlow({super.key, this.fromSignup = false});
 
   @override
   State<QuestionnaireFlow> createState() => _QuestionnaireFlowState();
@@ -197,7 +203,11 @@ class _QuestionnaireFlowState extends State<QuestionnaireFlow> {
         currentStep++;
       });
     } else {
-      Get.back();
+      if (widget.fromSignup) {
+        navigateToPage(SubscriptionView(fromSignup: widget.fromSignup));
+      } else {
+        Get.back();
+      }
     }
   }
 

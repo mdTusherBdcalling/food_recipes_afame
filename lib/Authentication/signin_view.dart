@@ -42,7 +42,7 @@ class _SigninViewState extends State<SigninView> {
           onPressed: () => Get.back(),
         ),
         title: commonText(
-          "Create Account",
+          "Sign In to Your Account",
           size: 20,
           isBold: true,
           color: Colors.white,
@@ -128,13 +128,7 @@ class _SigninViewState extends State<SigninView> {
                       onTap: () {
                         navigateToPage(SignUpView());
                       },
-                      child: commonText(
-                        "Sign Up",
-                        size: 14,
-
-                        color: AppColors.primary,
-                        isBold: true,
-                      ),
+                      child: commonText("Sign Up", size: 14, isBold: true),
                     ),
                   ],
                 ),

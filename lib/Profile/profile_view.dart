@@ -207,14 +207,9 @@ class ProfileView extends StatelessWidget {
             imagePath,
             width: 24,
             height: 24,
-            color: Colors.amber.shade700,
+            color: AppColors.primary,
           ),
-          title: commonText(
-            text,
-            size: 16,
-            color: Colors.black87,
-            isBold: false,
-          ),
+          title: commonText(text, size: 16, isBold: false),
           trailing: const Icon(
             Icons.arrow_forward_ios,
             size: 16,

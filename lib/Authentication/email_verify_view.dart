@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Authentication/signin_view.dart';
+import 'package:food_recipes_afame/Authentication/question_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
@@ -111,7 +111,7 @@ class _EmailVerifyViewState extends State<EmailVerifyView> {
               "Verify",
               textColor: Colors.white,
               onTap: () {
-                navigateToPage(SigninView());
+                navigateToPage(QuestionnaireFlow(fromSignup: true));
               },
             ),
             const SizedBox(height: 30),

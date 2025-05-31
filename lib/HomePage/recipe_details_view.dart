@@ -113,32 +113,49 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.access_time_filled_outlined,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.access_time_filled_outlined,
 
-                                    color: Colors.green,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  commonText("25 Min", size: 14),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.language,
-                                    color: Colors.orange,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  commonText("Origin: North Africa", size: 14),
-                                ],
-                              ),
-                            ],
+                                      color: Colors.green,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    commonText("25 Min", size: 14),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.language,
+                                      color: Colors.orange,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          commonText("Origin: ", size: 14),
+                                          Flexible(
+                                            child: commonText(
+                                              "North Africa",
+                                              size: 14,
+                                              maxline: 1,
+                                              isBold: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
