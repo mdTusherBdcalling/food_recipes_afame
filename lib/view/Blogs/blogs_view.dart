@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/view/Blogs/blog_details_page.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class BlogsView extends StatefulWidget {
   const BlogsView({super.key});

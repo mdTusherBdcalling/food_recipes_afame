@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/core/image_paths.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class NotificationsView extends StatelessWidget {
   final List<Map<String, String>> notifications;

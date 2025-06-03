@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/view/HomePage/recipe_details_view.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/core/image_paths.dart';
-import 'package:food_recipes_afame/shared/commonDesigns.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class FavoritesView extends StatefulWidget {
   const FavoritesView({super.key});

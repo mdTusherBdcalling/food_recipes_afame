@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/shared/commonDesigns.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
 class MyRecipesView extends StatelessWidget {

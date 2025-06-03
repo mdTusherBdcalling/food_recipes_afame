@@ -5,9 +5,9 @@ import 'package:food_recipes_afame/view/Profile/plan_management_view.dart';
 import 'package:food_recipes_afame/view/Profile/privacy_policy.dart';
 import 'package:food_recipes_afame/view/Profile/settings.dart';
 import 'package:food_recipes_afame/view/Profile/terms_and_condition.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/core/image_paths.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

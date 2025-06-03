@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/view/Onboarding/onboarding_view.dart';
 
-import 'package:food_recipes_afame/core/colors.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:get/get.dart';
 
 void main() {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/view/Authentication/email_verify_view.dart';
 import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/core/image_paths.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});

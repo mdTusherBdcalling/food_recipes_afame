@@ -5,8 +5,8 @@ import 'package:food_recipes_afame/view/Favorites/favorites_view.dart';
 import 'package:food_recipes_afame/view/HomePage/home_page.dart';
 import 'package:food_recipes_afame/view/Profile/profile_view.dart';
 import 'package:food_recipes_afame/view/Recipes/recipe_view.dart';
-import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/core/image_paths.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/utils/image_paths.dart';
 
 class RootView extends StatefulWidget {
   const RootView({super.key});

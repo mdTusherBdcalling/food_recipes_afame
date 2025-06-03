@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/core/colors.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/root_view.dart';
-import 'package:food_recipes_afame/shared/commonWidgets.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
 class SubscriptionView extends StatefulWidget {
