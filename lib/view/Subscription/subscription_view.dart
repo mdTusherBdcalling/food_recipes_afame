@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/core/colors.dart';
-import 'package:food_recipes_afame/root_view.dart';
+import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
@@ -227,7 +227,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     button: GestureDetector(
                       onTap: () {
                         if (widget.fromSignup) {
-                          navigateToPage(MainScreen());
+                          navigateToPage(RootView());
                         } else {
                           Get.back();
                         }

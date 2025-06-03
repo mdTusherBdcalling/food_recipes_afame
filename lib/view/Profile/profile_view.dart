@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Profile/edit_profile_view.dart';
-import 'package:food_recipes_afame/Profile/my_recipes_view.dart';
-import 'package:food_recipes_afame/Profile/plan_management_view.dart';
-import 'package:food_recipes_afame/Profile/privacy_policy.dart';
-import 'package:food_recipes_afame/Profile/settings.dart';
-import 'package:food_recipes_afame/Profile/terms_and_condition.dart';
+import 'package:food_recipes_afame/view/Profile/edit_profile_view.dart';
+import 'package:food_recipes_afame/view/Profile/my_recipes_view.dart';
+import 'package:food_recipes_afame/view/Profile/plan_management_view.dart';
+import 'package:food_recipes_afame/view/Profile/privacy_policy.dart';
+import 'package:food_recipes_afame/view/Profile/settings.dart';
+import 'package:food_recipes_afame/view/Profile/terms_and_condition.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';

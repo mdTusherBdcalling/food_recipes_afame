@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Blogs/blogs_view.dart';
-import 'package:food_recipes_afame/Explore/explore_view.dart';
-import 'package:food_recipes_afame/Favorites/favorites_view.dart';
-import 'package:food_recipes_afame/HomePage/home_page.dart';
-import 'package:food_recipes_afame/Profile/profile_view.dart';
-import 'package:food_recipes_afame/Recipes/recipe_view.dart';
+import 'package:food_recipes_afame/view/Blogs/blogs_view.dart';
+import 'package:food_recipes_afame/view/Explore/explore_view.dart';
+import 'package:food_recipes_afame/view/Favorites/favorites_view.dart';
+import 'package:food_recipes_afame/view/HomePage/home_page.dart';
+import 'package:food_recipes_afame/view/Profile/profile_view.dart';
+import 'package:food_recipes_afame/view/Recipes/recipe_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class RootView extends StatefulWidget {
+  const RootView({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<RootView> createState() => _RootViewState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _RootViewState extends State<RootView> {
   int currentIndex = 0;
 
   @override

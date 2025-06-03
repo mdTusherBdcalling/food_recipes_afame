@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/HomePage/recipe_details_view.dart';
-import 'package:food_recipes_afame/Recipes/create_recipe_view.dart';
+import 'package:food_recipes_afame/view/HomePage/recipe_details_view.dart';
+import 'package:food_recipes_afame/view/Recipes/create_recipe_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonDesigns.dart';

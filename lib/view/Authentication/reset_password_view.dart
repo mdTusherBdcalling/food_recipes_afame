@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Authentication/signin_view.dart';
+import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/core/image_paths.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';

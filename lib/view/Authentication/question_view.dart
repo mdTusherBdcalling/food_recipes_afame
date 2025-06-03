@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/Subscription/subscription_view.dart';
+import 'package:food_recipes_afame/view/Subscription/subscription_view.dart';
 import 'package:food_recipes_afame/core/colors.dart';
 import 'package:food_recipes_afame/shared/commonWidgets.dart';
 import 'package:get/get.dart';
