@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/models/authentication/login_response_model.dart';
+import 'package:food_recipes_afame/services/api_service.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
+import 'package:get/get.dart';
+import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
+import 'package:food_recipes_afame/view/root_view.dart';
+import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
+
+class SigninController extends GetxController {
+  final ApiService _apiService = ApiService();
+  final LocalStorageService _localStorageService = LocalStorageService();
+
+  final emailController = TextEditingController(
+    text: "amina.rahman@example.com",
+  );
+  final passwordController = TextEditingController(text: "hello123");
+
+  RxBool isLoading = false.obs;
+  RxBool isPasswordVisible = false.obs;
+  RxBool rememberMe = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  void toggleRememberMe(bool? val) {
+    rememberMe.value = val ?? false;
+  }
+
+  Future<void> login() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      commonSnackbar(
+        title: "Validation Error",
+        message: "Email and Password are required",
+        backgroundColor: Colors.red,
+      );
+      return;
+    }
+
+    isLoading.value = true;
+
+    try {
+      final response = await _apiService.post(ApiEndpoints.login, {
+        "email": email,
+        "password": password,
+      });
+
+      final loginData = LoginResponseModel.fromJson(response);
+      final accessToken = loginData.data.accessToken;
+
+      // Save token
+      await _localStorageService.saveToken(accessToken);
+
+      // Navigate to root/home screen
+      Get.offAll(() => RootView());
+    } catch (e) {
+      if (e is ApiException) {
+        commonSnackbar(
+          title: "Login Failed",
+          message: e.message,
+          backgroundColor: Colors.red,
+        );
+      } else {
+        commonSnackbar(
+          title: "Error",
+          message: "Something went wrong",
+          backgroundColor: Colors.red,
+        );
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}

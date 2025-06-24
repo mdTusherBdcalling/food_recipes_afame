@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Onboarding/onboarding_view.dart';
-
+import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         fontFamily: 'Roboto', // optional, change as per your font
       ),
-      home: OnboardingView(),
+      home: SigninView(),
     );
   }
 }

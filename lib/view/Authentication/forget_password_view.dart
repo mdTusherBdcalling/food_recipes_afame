@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Authentication/verify_otp_view.dart';
+import 'package:food_recipes_afame/controller/ForgotPasswordController.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
+import 'package:get/get.dart';
 
-class ForgotPasswordView extends StatefulWidget {
+class ForgotPasswordView extends StatelessWidget {
   ForgotPasswordView({super.key});
 
-  @override
-  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
-}
-
-class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  final TextEditingController emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.clear();
-    super.dispose();
-  }
+  final ForgotPasswordController controller = Get.put(
+    ForgotPasswordController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,31 +24,23 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           children: [
             const SizedBox(height: 10),
             Image.asset(ImagePaths.forgetPageImage),
-
             const SizedBox(height: 10),
             RichText(
-              text: TextSpan(
-                style: const TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
+              text: const TextSpan(
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: "Forget Your ",
                     style: TextStyle(color: AppColors.black),
                   ),
-                  const TextSpan(
-                    text: "Forget Your ",
+                  TextSpan(
+                    text: "Password",
                     style: TextStyle(color: AppColors.primary),
                   ),
-                  const TextSpan(
-                    text: "?",
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  TextSpan(text: "?", style: TextStyle(color: Colors.black)),
                 ],
               ),
             ),
-
             const SizedBox(height: 5),
             commonText(
               "Enter your email address to reset your password.",
@@ -67,22 +51,24 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             // Email TextField
             commonTextfieldWithTitle(
               "Email",
-              emailController,
+              controller.emailController,
               hintText: "Enter your email",
               assetIconPath: ImagePaths.email,
               keyboardType: TextInputType.emailAddress,
             ),
-            Spacer(),
+            const Spacer(),
 
-            commonButton(
-              "Get Verification Code",
-              textColor: Colors.white,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OtpVerifyView()),
-                );
-              },
+            Obx(
+              () => commonButton(
+                controller.isLoading.value
+                    ? "Please wait..."
+                    : "Get Verification Code",
+                textColor: Colors.white,
+                onTap:
+                    controller.isLoading.value
+                        ? null
+                        : controller.sendResetCode,
+              ),
             ),
             const SizedBox(height: 20),
           ],

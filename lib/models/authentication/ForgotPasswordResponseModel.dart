@@ -1,23 +1,24 @@
-class ForgotPasswordResponse {
+class ForgotPasswordResponseModel {
   final bool success;
   final int statusCode;
   final String message;
   final ForgotPasswordData data;
 
-  ForgotPasswordResponse({
+  ForgotPasswordResponseModel({
     required this.success,
     required this.statusCode,
     required this.message,
     required this.data,
   });
 
-  factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      ForgotPasswordResponse(
-        success: json['success'] ?? false,
-        statusCode: json['statusCode'] ?? 0,
-        message: json['message'] ?? '',
-        data: ForgotPasswordData.fromJson(json['data'] ?? {}),
-      );
+  factory ForgotPasswordResponseModel.fromJson(Map<String, dynamic> json) {
+    return ForgotPasswordResponseModel(
+      success: json['success'],
+      statusCode: json['statusCode'],
+      message: json['message'],
+      data: ForgotPasswordData.fromJson(json['data']),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     'success': success,
@@ -32,10 +33,9 @@ class ForgotPasswordData {
 
   ForgotPasswordData({required this.forgotPasswordToken});
 
-  factory ForgotPasswordData.fromJson(Map<String, dynamic> json) =>
-      ForgotPasswordData(
-        forgotPasswordToken: json['forgotPasswordToken'] ?? '',
-      );
+  factory ForgotPasswordData.fromJson(Map<String, dynamic> json) {
+    return ForgotPasswordData(forgotPasswordToken: json['forgotPasswordToken']);
+  }
 
   Map<String, dynamic> toJson() => {'forgotPasswordToken': forgotPasswordToken};
 }

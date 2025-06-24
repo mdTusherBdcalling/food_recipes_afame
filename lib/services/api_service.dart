@@ -14,8 +14,8 @@ class ApiService {
 
     return {
       'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer $token',
-      'token': '$token',
+      'Authorization': 'Bearer $token',
+      // 'token': '$token',
     };
   }
 
@@ -35,7 +35,11 @@ class ApiService {
     return _processResponse(response);
   }
 
-  Future<dynamic> post(String endpoint, Map<String, dynamic> body) async {
+  Future<dynamic> post(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? extraHeader,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     log('${ApiEndpoints.baseUrl}$endpoint');
     log(body.toString());
@@ -44,7 +48,7 @@ class ApiService {
 
     final response = await http.post(
       url,
-      headers: headers,
+      headers: (extraHeader != null) ? extraHeader : headers,
       body: jsonEncode(body),
     );
     log(response.body);

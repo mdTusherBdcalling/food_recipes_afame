@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
+import 'package:food_recipes_afame/controller/reset_password_controller.dart';
+import 'package:get/get.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
-import 'package:get/get.dart';
 
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});
@@ -13,17 +13,10 @@ class ResetPasswordView extends StatefulWidget {
 }
 
 class _ResetPasswordViewState extends State<ResetPasswordView> {
-  final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final ResetPasswordController controller = Get.put(ResetPasswordController());
+
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
-  @override
-  void dispose() {
-    newPasswordController.clear();
-    confirmPasswordController.clear();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +32,18 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             Image.asset(ImagePaths.resetPageImage),
             const SizedBox(height: 10),
             RichText(
-              text: TextSpan(
-                style: const TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
+              text: const TextSpan(
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: "Now Reset Your ",
                     style: TextStyle(color: AppColors.black),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: "Password",
                     style: TextStyle(color: AppColors.primary),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: ".",
                     style: TextStyle(color: AppColors.black, fontSize: 28),
                   ),
@@ -61,16 +51,15 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               ),
             ),
             const SizedBox(height: 5),
-            commonText("Password  must have 6-8 characters.", size: 14.0),
+            commonText("Password must have 6-8 characters.", size: 14.0),
             const SizedBox(height: 30),
 
             // New Password TextField
             commonTextfieldWithTitle(
               "New Password",
-              newPasswordController,
+              controller.newPasswordController,
               hintText: "Enter your password",
               assetIconPath: ImagePaths.lock,
-
               isPasswordVisible: isPasswordVisible,
               issuffixIconVisible: true,
               changePasswordVisibility: () {
@@ -84,10 +73,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             // Confirm New Password TextField
             commonTextfieldWithTitle(
               "Confirm New Password",
-              confirmPasswordController,
+              controller.confirmPasswordController,
               hintText: "Enter your password",
               assetIconPath: ImagePaths.lock,
-
               isPasswordVisible: isConfirmPasswordVisible,
               issuffixIconVisible: true,
               changePasswordVisibility: () {
@@ -96,14 +84,22 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 });
               },
             ),
-            Spacer(),
-            commonButton(
-              "Reset Password",
-              textColor: Colors.white,
-              onTap: () {
-                Get.to(SigninView());
-              },
+
+            const Spacer(),
+
+            Obx(
+              () =>
+                  controller.isLoading.value
+                      ? const CircularProgressIndicator()
+                      : commonButton(
+                        "Reset Password",
+                        textColor: Colors.white,
+                        onTap: () {
+                          controller.resetPassword();
+                        },
+                      ),
             ),
+
             const SizedBox(height: 20),
           ],
         ),

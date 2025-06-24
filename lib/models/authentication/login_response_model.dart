@@ -1,3 +1,46 @@
+class LoginResponseModel {
+  final bool success;
+  final int statusCode;
+  final String message;
+  final LoginData data;
+
+  LoginResponseModel({
+    required this.success,
+    required this.statusCode,
+    required this.message,
+    required this.data,
+  });
+
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
+    return LoginResponseModel(
+      success: json['success'],
+      statusCode: json['statusCode'],
+      message: json['message'],
+      data: LoginData.fromJson(json['data']),
+    );
+  }
+}
+
+class LoginData {
+  final String accessToken;
+  final String refreshToken;
+  final UserModel user;
+
+  LoginData({
+    required this.accessToken,
+    required this.refreshToken,
+    required this.user,
+  });
+
+  factory LoginData.fromJson(Map<String, dynamic> json) {
+    return LoginData(
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
+      user: UserModel.fromJson(json['user']),
+    );
+  }
+}
+
 class UserModel {
   final String id;
   final String name;
@@ -33,7 +76,6 @@ class UserModel {
     required this.image,
   });
 
-  // Factory method to create a User from JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['_id'],
