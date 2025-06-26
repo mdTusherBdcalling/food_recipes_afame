@@ -35,6 +35,7 @@ class ApiEndpoints {
   // Subscription Endpoints
   static const String createSubscription = 'subscription/create';
   static const String getSubscriptions = 'subscription';
+  static const String mySubscription = 'subscription/my_subscription';
   static const String singleSubscription =
       'subscription/'; // Append subscription ID dynamically
   static const String updateSubscription =

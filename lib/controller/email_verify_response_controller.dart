@@ -4,7 +4,7 @@ import 'package:food_recipes_afame/models/authentication/resend_model.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
 import 'package:food_recipes_afame/services/local_storage_service.dart';
 import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
-import 'package:food_recipes_afame/view/Authentication/question_view.dart';
+import 'package:food_recipes_afame/view/Authentication/compleate_question_view.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
@@ -65,7 +65,7 @@ class EmailVerifyController extends GetxController {
           message: verifyResponse.message,
           backgroundColor: Colors.green,
         );
-        Get.to(() => QuestionnaireFlow(fromSignup: true));
+        Get.to(() => CompleateQuestionnaireFlow(fromSignup: true));
       } else {
         commonSnackbar(
           title: "Failed",

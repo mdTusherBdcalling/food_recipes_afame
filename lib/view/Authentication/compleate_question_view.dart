@@ -1,20 +1,21 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/compleate_question_controller.dart';
 import 'package:food_recipes_afame/view/Subscription/subscription_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
-class QuestionnairePage extends StatefulWidget {
+class CompleateQuestionnairePage extends StatefulWidget {
   final String title;
   final String subtitle;
   final List<String> options;
   final int currentStep; // zero based index
   final int totalSteps;
-  final VoidCallback onNext;
+  final Function(String selectedAnswer) onNext;
 
-  const QuestionnairePage({
+  const CompleateQuestionnairePage({
     super.key,
     required this.title,
     required this.subtitle,
@@ -25,10 +26,12 @@ class QuestionnairePage extends StatefulWidget {
   });
 
   @override
-  State<QuestionnairePage> createState() => _QuestionnairePageState();
+  State<CompleateQuestionnairePage> createState() =>
+      _CompleateQuestionnairePageState();
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+class _CompleateQuestionnairePageState
+    extends State<CompleateQuestionnairePage> {
   int? selectedOptionIndex;
 
   @override
@@ -130,8 +133,11 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                         Get.snackbar("Empty", "Please sellect an option");
                       }
                       : () {
-                        selectedOptionIndex = null;
-                        widget.onNext();
+                        final selected = widget.options[selectedOptionIndex!];
+                        widget.onNext(selected); // ✅ Pass selected value
+                        setState(() {
+                          selectedOptionIndex = null;
+                        });
                       },
             ),
           ],
@@ -141,15 +147,17 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   }
 }
 
-class QuestionnaireFlow extends StatefulWidget {
+class CompleateQuestionnaireFlow extends StatefulWidget {
   bool fromSignup;
-  QuestionnaireFlow({super.key, this.fromSignup = false});
+  CompleateQuestionnaireFlow({super.key, this.fromSignup = false});
 
   @override
-  State<QuestionnaireFlow> createState() => _QuestionnaireFlowState();
+  State<CompleateQuestionnaireFlow> createState() =>
+      _CompleateQuestionnaireFlowState();
 }
 
-class _QuestionnaireFlowState extends State<QuestionnaireFlow> {
+class _CompleateQuestionnaireFlowState
+    extends State<CompleateQuestionnaireFlow> {
   int currentStep = 0;
 
   final questions = [
@@ -197,12 +205,39 @@ class _QuestionnaireFlowState extends State<QuestionnaireFlow> {
     },
   ];
 
-  void nextStep() {
+  Map<String, String> answers = {};
+
+  void nextStep(String selectedAnswer) async {
+    // Store current answer
+    switch (currentStep) {
+      case 0:
+        answers['cultureHeritage'] = selectedAnswer;
+        break;
+      case 1:
+        answers['favoriteDish'] = selectedAnswer;
+        break;
+      case 2:
+        answers['pageGoal'] = selectedAnswer;
+        break;
+      case 3:
+        answers['cookingFrequency'] = selectedAnswer;
+        break;
+    }
+
+    // Go to next step or call API
     if (currentStep < questions.length - 1) {
       setState(() {
         currentStep++;
       });
     } else {
+      // Final Step: Call API
+      await Get.put(CompleteProfileController()).completeProfile(
+        cultureHeritage: answers['cultureHeritage'] ?? '',
+        favoriteDish: answers['favoriteDish'] ?? '',
+        pageGoal: answers['pageGoal'] ?? '',
+        cookingFrequency: answers['cookingFrequency'] ?? '',
+      );
+
       if (widget.fromSignup) {
         navigateToPage(SubscriptionView(fromSignup: widget.fromSignup));
       } else {
@@ -215,13 +250,13 @@ class _QuestionnaireFlowState extends State<QuestionnaireFlow> {
   Widget build(BuildContext context) {
     final q = questions[currentStep];
     q['subtitle'] ??= "Please select an option";
-    return QuestionnairePage(
+    return CompleateQuestionnairePage(
       title: q['title']!.toString(),
       subtitle: q['subtitle']!.toString(),
       options: List<String>.from(q['options']! as List),
       currentStep: currentStep,
       totalSteps: questions.length,
-      onNext: nextStep,
+      onNext: (selectedAnswer) => nextStep(selectedAnswer),
     );
   }
 }

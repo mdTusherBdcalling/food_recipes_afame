@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Authentication/question_view.dart';
+import 'package:food_recipes_afame/controller/profile/edit_profile_controller.dart';
+import 'package:get/get.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/Profile/question_view.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
-import 'package:get/get.dart';
 
 class EditProfileView extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final EditProfileController controller = Get.put(EditProfileController());
 
   EditProfileView({super.key});
 
@@ -30,7 +30,6 @@ class EditProfileView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Column(
           children: [
-            // Avatar circle with edit icon
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -53,54 +52,46 @@ class EditProfileView extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Full name field
             commonTextfieldWithTitle(
               "Full name",
-              nameController,
+              controller.nameController,
               hintText: "Enter your full name",
               issuffixIconVisible: false,
-
               enable: true,
               textSize: 14.0,
-              assetIconPath: ImagePaths.profile, // update if needed
+              assetIconPath: ImagePaths.profile,
             ),
-
             const SizedBox(height: 16),
 
-            // Phone number field
             commonTextfieldWithTitle(
               "Phone Number",
-              phoneController,
+              controller.phoneController,
               hintText: "Enter your phone number",
               issuffixIconVisible: false,
-
               enable: true,
               textSize: 14.0,
               keyboardType: TextInputType.phone,
-              assetIconPath: ImagePaths.callIcon, // update if needed
+              assetIconPath: ImagePaths.callIcon,
             ),
 
             const SizedBox(height: 32),
 
-            // Save button
-            commonButton(
-              "Save",
-              onTap: () {
-                Get.back();
-              },
-            ),
+            Obx(() {
+              return controller.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : commonButton("Save", onTap: controller.updateProfile);
+            }),
 
             const SizedBox(height: 30),
 
-            // Edit preferences option
             GestureDetector(
               onTap: () {
-                navigateToPage(QuestionnaireFlow());
+                navigateToPage(UpdateQuestionnaireFlow());
               },
               child: Row(
                 children: [
                   Image.asset(
-                    ImagePaths.performance, // add this icon in assets
+                    ImagePaths.performance,
                     height: 24,
                     width: 24,
                     color: Colors.black54,
@@ -110,7 +101,6 @@ class EditProfileView extends StatelessWidget {
                     "Edit your Preferences",
                     size: 16,
                     color: Colors.black87,
-                    isBold: false,
                   ),
                   const Spacer(),
                   const Icon(
