@@ -45,7 +45,7 @@ class ApiEndpoints {
 
   // Region Endpoints
   static const String createRegion = 'region/create';
-  static const String getRegions = 'region';
+  static const String getAllRegions = 'region';
   static const String getRegion = 'region/'; // Append region ID dynamically
   static const String updateRegion = 'region/'; // Append region ID dynamically
   static const String deleteRegion = 'region/'; // Append region ID dynamically
@@ -82,7 +82,7 @@ class ApiEndpoints {
     return uri.toString();
   }
 
-  static const String singleRecipe = 'recipe/';
+  static String singleRecipe(String id) => 'recipe/$id';
   static const String recipeTending = "recipe/tending";
   static const String recipeWithHeritage = 'recipe/recommended';
   static const String recommendedRecipe =

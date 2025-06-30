@@ -7,51 +7,12 @@ import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
-class ExploreView extends StatefulWidget {
-  const ExploreView({super.key});
+class ExploreView extends StatelessWidget {
+  ExploreView({super.key});
 
-  @override
-  State<ExploreView> createState() => _ExploreViewState();
-}
-
-class _ExploreViewState extends State<ExploreView> {
   final ExploreController exploreController = Get.put(ExploreController());
 
   final TextEditingController searchController = TextEditingController();
-
-  final List<Map<String, String>> regions = [
-    {
-      'name': 'Italy',
-      'image': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-    },
-    {
-      'name': 'Asia',
-      'image': 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29',
-    },
-    {
-      'name': 'Latin America',
-      'image': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-    },
-    {
-      'name': 'Europe',
-      'image': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b',
-    },
-    {
-      'name': 'Middle East',
-      'image': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-    },
-    {
-      'name': 'Africa',
-      'image': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b',
-    },
-  ];
-
-
-  void clearFilter() {
-    setState(() {
-      exploreController.origin = null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,78 +39,96 @@ class _ExploreViewState extends State<ExploreView> {
                       search: p0,
                     );
                   },
+                  onChnage: (p0) {
+                    if (p0.isEmpty) {
+                      exploreController.applyFilters(
+                        region: exploreController.origin,
+                        search: p0,
+                      );
+                    }
+                  },
                   enable: true,
                 ),
 
-                const SizedBox(height: 20),
-
-                // Explore by Region Title
-                commonText(
-                  "Explore by Region",
-                  size: 18,
-                  isBold: true,
-                  color: Colors.black87,
-                ),
-
-                const SizedBox(height: 12),
-
-                // Regions Grid
-                SizedBox(
-                  child: GridView.builder(
-                    padding: EdgeInsets.all(0),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 2.7,
-                        ),
-                    itemCount: regions.length,
-                    itemBuilder: (context, index) {
-                      final region = regions[index];
-                      final isSelected =
-                          exploreController.origin == region['name'];
-
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            exploreController.applyFilters(
-                              region: region['name'],
-                            );
-                          });
-                        },
-                        child: Stack(
+                Obx(() {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      if (exploreController.allRegions.isNotEmpty)
+                        Row(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                region['image']!,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                                color:
-                                    isSelected ? Colors.black : Colors.white38,
-
-                                colorBlendMode: BlendMode.screen,
-                              ),
-                            ),
-                            Center(
-                              child: commonText(
-                                region['name']!,
-                                size: 16,
-                                isBold: true,
-                                color: AppColors.white,
-                              ),
+                            commonText(
+                              "Explore by Region",
+                              size: 18,
+                              isBold: true,
+                              color: Colors.black87,
                             ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                ),
+
+                      const SizedBox(height: 12),
+
+                      // Regions Grid
+                      SizedBox(
+                        child: GridView.builder(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                                childAspectRatio: 2.7,
+                              ),
+                          itemCount: exploreController.allRegions.length,
+                          itemBuilder: (context, index) {
+                            final isSelected =
+                                exploreController.origin ==
+                                exploreController.allRegions[index].name;
+
+                            return GestureDetector(
+                              onTap: () {
+                                exploreController.applyFilters(
+                                  region:
+                                      exploreController.allRegions[index].name,
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(
+                                      exploreController.allRegions[index].image,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      color:
+                                          isSelected
+                                              ? Colors.black
+                                              : Colors.white38,
+
+                                      colorBlendMode: BlendMode.screen,
+                                    ),
+                                  ),
+                                  Center(
+                                    child: commonText(
+                                      exploreController.allRegions[index].name,
+                                      size: 16,
+                                      isBold: true,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
 
                 const SizedBox(height: 20),
 
@@ -166,7 +145,10 @@ class _ExploreViewState extends State<ExploreView> {
                     ),
                     if (exploreController.origin != null)
                       GestureDetector(
-                        onTap: clearFilter,
+                        onTap: () {
+                          searchController.clear();
+                          exploreController.clearFilters();
+                        },
                         child: commonText(
                           "Clear filter",
                           size: 14,
@@ -202,15 +184,18 @@ class _ExploreViewState extends State<ExploreView> {
                           isFavorite:
                               exploreController.allRecipes[index].isFavorite,
                           onFavoriteTap: () {
-                            setState(() {
-                              exploreController.allRecipes[index].isFavorite =
-                                  !exploreController
-                                      .allRecipes[index]
-                                      .isFavorite;
-                            });
+                            final recipe = exploreController.allRecipes[index];
+                            recipe.isFavorite = !recipe.isFavorite;
+
+                            // Trigger UI update for that index
+                            exploreController.allRecipes[index] = recipe;
                           },
                           onTap: () {
-                            navigateToPage(const RecipeDetailsView());
+                            navigateToPage(
+                              RecipeDetailsView(
+                                id: exploreController.allRecipes[index].id,
+                              ),
+                            );
                           },
                         ),
                       ),

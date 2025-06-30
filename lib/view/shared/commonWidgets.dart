@@ -77,6 +77,7 @@ Widget commonTextfieldWithTitle(
   Color borderColor = Colors.grey,
   int maxLine = 1,
   Function(String)? onsubmit,
+  Function(String)? onChnage,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +105,7 @@ Widget commonTextfieldWithTitle(
               controller: controller,
               enabled: enable,
               focusNode: focusNode,
-
+              onChanged: onChnage,
               keyboardType: keyboardType,
               onSubmitted: onsubmit,
               maxLines: maxLine,

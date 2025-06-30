@@ -380,7 +380,7 @@ class _RecipesViewState extends State<RecipesView> {
             });
           },
           onTap: () {
-            navigateToPage(const RecipeDetailsView());
+            navigateToPage(const RecipeDetailsView(id: ""));
           },
         );
       },

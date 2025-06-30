@@ -272,7 +272,7 @@ class _HomeViewState extends State<HomeView> {
               });
             },
             onTap: () {
-              navigateToPage(const RecipeDetailsView());
+              navigateToPage(RecipeDetailsView(id: data[index].id));
             },
           ),
         );

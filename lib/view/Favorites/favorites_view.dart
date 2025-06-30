@@ -416,7 +416,7 @@ class _FavoritesViewState extends State<FavoritesView> {
             });
           },
           onTap: () {
-            navigateToPage(const RecipeDetailsView());
+            navigateToPage(const RecipeDetailsView(id: ""));
           },
         );
       },

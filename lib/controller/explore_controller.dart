@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/models/expolore/region_model.dart';
 import 'package:food_recipes_afame/models/recipi_model.dart';
 import 'package:get/get.dart';
 import '../services/api_service.dart';
@@ -19,9 +20,14 @@ class ExploreController extends GetxController {
 
   final ScrollController scrollController = ScrollController();
 
+  // Region States
+  RxBool isRegionLoading = false.obs;
+  RxList<Region> allRegions = <Region>[].obs;
+
   @override
   void onInit() {
     super.onInit();
+    fetchRegions();
     fetchAllRecipes();
 
     scrollController.addListener(() {
@@ -46,6 +52,7 @@ class ExploreController extends GetxController {
   void clearFilters() {
     searchTerm = null;
     origin = null;
+    hasMore = true;
 
     resetPagination();
     fetchAllRecipes();
@@ -82,6 +89,23 @@ class ExploreController extends GetxController {
       print("Error fetching recipes: $e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  // REGION FETCH
+  Future<void> fetchRegions() async {
+    isRegionLoading.value = true;
+
+    try {
+      final response = await ApiService().get(ApiEndpoints.getAllRegions);
+      final resultList = response['data']['result'] as List;
+
+      final regions = resultList.map((e) => Region.fromJson(e)).toList();
+      allRegions.assignAll(regions);
+    } catch (e) {
+      print("Error fetching regions: $e");
+    } finally {
+      isRegionLoading.value = false;
     }
   }
 }
