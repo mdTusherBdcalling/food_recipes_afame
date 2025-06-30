@@ -13,9 +13,9 @@ class LoginResponseModel {
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-      success: json['success'],
-      statusCode: json['statusCode'],
-      message: json['message'],
+      success: json['success'] ?? false,
+      statusCode: json['statusCode'] ?? "",
+      message: json['message'] ?? "",
       data: LoginData.fromJson(json['data']),
     );
   }
@@ -34,9 +34,9 @@ class LoginData {
 
   factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
-      accessToken: json['accessToken'],
-      refreshToken: json['refreshToken'],
-      user: UserModel.fromJson(json['user']),
+      accessToken: json['accessToken'] ?? "",
+      refreshToken: json['refreshToken'] ?? "",
+      user: UserModel.fromJson(json['user'] ?? {}),
     );
   }
 }
@@ -78,21 +78,21 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['_id'],
-      name: json['name'],
-      email: json['email'],
-      role: json['role'],
-      status: json['status'],
-      isDeleted: json['isDeleted'],
-      isSocialLogin: json['isSocialLogin'],
-      isCompleted: json['isCompleted'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      cookingFrequency: json['cookingFrequency'],
-      cultureHeritage: json['cultureHeritage'],
-      favoriteDish: json['favoriteDish'],
-      pageGoal: json['pageGoal'],
-      image: json['image'],
+      id: json['_id'] ?? "",
+      name: json['name'] ?? "",
+      email: json['email'] ?? "",
+      role: json['role'] ?? "",
+      status: json['status'] ?? "",
+      isDeleted: json['isDeleted'] ?? false,
+      isSocialLogin: json['isSocialLogin'] ?? false,
+      isCompleted: json['isCompleted'] ?? false,
+      createdAt: json['createdAt'] ?? "",
+      updatedAt: json['updatedAt'] ?? "",
+      cookingFrequency: json['cookingFrequency'] ?? "",
+      cultureHeritage: json['cultureHeritage'] ?? "",
+      favoriteDish: json['favoriteDish'] ?? "",
+      pageGoal: json['pageGoal'] ?? "",
+      image: json['image'] ?? "",
     );
   }
 }

@@ -76,8 +76,7 @@ Widget commonTextfieldWithTitle(
   String? assetIconPath,
   Color borderColor = Colors.grey,
   int maxLine = 1,
-  String? Function(String?)? onValidate,
-  Function(String?)? onFieldSubmit,
+  Function(String)? onsubmit,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,13 +100,13 @@ Widget commonTextfieldWithTitle(
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: TextFormField(
+            child: TextField(
               controller: controller,
               enabled: enable,
               focusNode: focusNode,
-              validator: onValidate,
-              onFieldSubmitted: onFieldSubmit,
+
               keyboardType: keyboardType,
+              onSubmitted: onsubmit,
               maxLines: maxLine,
               obscureText: isPasswordVisible,
               decoration: InputDecoration(
@@ -149,15 +148,28 @@ void navigateToPage(
   Widget page, {
   bool replace = false,
   bool clearStack = false,
+  ontap,
   Transition transition = Transition.rightToLeft,
   Duration duration = const Duration(milliseconds: 400),
 }) {
   if (clearStack) {
-    Get.offAll(page, transition: transition, duration: duration);
+    Get.offAll(
+      page,
+      transition: transition,
+      duration: duration,
+    )!.then(ontap ?? (e) {});
   } else if (replace) {
-    Get.off(page, transition: transition, duration: duration);
+    Get.off(
+      page,
+      transition: transition,
+      duration: duration,
+    )!.then(ontap ?? (e) {});
   } else {
-    Get.to(page, transition: transition, duration: duration);
+    Get.to(
+      page,
+      transition: transition,
+      duration: duration,
+    )!.then(ontap ?? (e) {});
   }
 }
 

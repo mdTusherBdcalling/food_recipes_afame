@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/home/home_controller.dart';
+import 'package:food_recipes_afame/models/recipi_model.dart';
 import 'package:food_recipes_afame/view/HomePage/notifications_view.dart';
 import 'package:food_recipes_afame/view/HomePage/recipe_details_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,8 +19,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-
-  // Sample data with mutable isFavorite state
   final List<Map<String, dynamic>> trending = [
     {
       "title": "Healthy Taco Salad with fresh vegetable",
@@ -34,32 +36,7 @@ class _HomeViewState extends State<HomeView> {
     },
   ];
 
-  final List<Map<String, dynamic>> recommended = List.generate(
-    4,
-    (index) => {
-      "imageUrl":
-          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
-      "region": "Middle East",
-      "title": "Moroccan Chicken Tagine",
-      "time": "25 Min",
-      "difficulty": "Easy",
-      "isFavorite": false,
-    },
-  );
-
-  final List<Map<String, dynamic>> heritage = List.generate(
-    4,
-    (index) => {
-      "imageUrl":
-          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
-      "region": "Middle East",
-      "title": "Moroccan Chicken Tagine",
-      "time": "25 Min",
-      "difficulty": "Easy",
-      "isFavorite": false,
-    },
-  );
-
+  final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,23 +46,31 @@ class _HomeViewState extends State<HomeView> {
           children: [
             _buildHeader(),
 
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  _buildSectionTitle("Trending This Week"),
-                  const SizedBox(height: 12),
-                  _buildTrendingList(),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle("Recommended For You"),
-                  _buildRecipeGrid(recommended),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle("Popular From Your Heritage"),
-                  _buildRecipeGrid(heritage),
-                  const SizedBox(height: 80),
-                ],
-              ),
-            ),
+            Obx(() {
+              if (homeController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    if (homeController.trendingRecipes.isNotEmpty)
+                      _buildSectionTitle("Trending This Week"),
+                    const SizedBox(height: 12),
+                    _buildTrendingList(),
+                    const SizedBox(height: 24),
+                    if (homeController.recommendedRecipes.isNotEmpty)
+                      _buildSectionTitle("Recommended For You"),
+                    _buildRecipeGrid(homeController.recommendedRecipes),
+                    const SizedBox(height: 24),
+                    if (homeController.heritageRecipes.isNotEmpty)
+                      _buildSectionTitle("Popular From Your Heritage"),
+                    _buildRecipeGrid(homeController.heritageRecipes),
+                    const SizedBox(height: 80),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
@@ -166,13 +151,19 @@ class _HomeViewState extends State<HomeView> {
             ],
           ),
 
-          commonTextfieldWithTitle(
-            '',
-            TextEditingController(),
-            hintText: "Search Recipe, cuisines...",
-            assetIconPath: ImagePaths.searchIcon,
-            borderWidth: 0.0,
-            enable: true,
+          GestureDetector(
+            onTap: () {
+              RootView.currentIndex = 1;
+              Get.offAll(RootView());
+            },
+            child: commonTextfieldWithTitle(
+              '',
+              TextEditingController(),
+              hintText: "Search Recipe, cuisines...",
+              assetIconPath: ImagePaths.searchIcon,
+              borderWidth: 0.0,
+              enable: false,
+            ),
           ),
         ],
       ),
@@ -182,7 +173,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildSectionTitle(String title) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: commonText(title, size: 18, isBold: true),
+      child: Row(children: [commonText(title, size: 18, isBold: true)]),
     );
   }
 
@@ -254,7 +245,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildRecipeGrid(List<Map<String, dynamic>> data) {
+  Widget _buildRecipeGrid(List<RecipeModel> data) {
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -262,25 +253,22 @@ class _HomeViewState extends State<HomeView> {
       itemCount: data.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
+
         childAspectRatio: 0.85,
       ),
       itemBuilder: (context, index) {
-        final item = data[index];
-
         return Padding(
           padding: const EdgeInsets.all(8),
           child: RecipeCard(
-            imageUrl: item['imageUrl'],
-            region: item['region'],
-            title: item['title'],
-            time: item['time'],
-            difficulty: item['difficulty'],
-            isFavorite: item['isFavorite'],
+            imageUrl: data[index].image,
+            region: data[index].origin,
+            title: data[index].recipeName,
+            time: data[index].estimateTime,
+            difficulty: data[index].difficultyLevel,
+            isFavorite: data[index].isFavorite,
             onFavoriteTap: () {
               setState(() {
-                data[index]['isFavorite'] = !data[index]['isFavorite'];
+                data[index].isFavorite = !data[index].isFavorite;
               });
             },
             onTap: () {

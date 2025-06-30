@@ -1,20 +1,20 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Subscription/subscription_view.dart';
+import 'package:food_recipes_afame/controller/profile/update_question_controller.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
-class QuestionnairePage extends StatefulWidget {
+class UpdateQuestionnairePage extends StatefulWidget {
   final String title;
   final String subtitle;
   final List<String> options;
   final int currentStep; // zero based index
   final int totalSteps;
-  final VoidCallback onNext;
+  final Function(String selectedAnswer) onNext;
 
-  const QuestionnairePage({
+  const UpdateQuestionnairePage({
     super.key,
     required this.title,
     required this.subtitle,
@@ -25,10 +25,11 @@ class QuestionnairePage extends StatefulWidget {
   });
 
   @override
-  State<QuestionnairePage> createState() => _QuestionnairePageState();
+  State<UpdateQuestionnairePage> createState() =>
+      _UpdateQuestionnairePageState();
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+class _UpdateQuestionnairePageState extends State<UpdateQuestionnairePage> {
   int? selectedOptionIndex;
 
   @override
@@ -130,8 +131,11 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                         Get.snackbar("Empty", "Please sellect an option");
                       }
                       : () {
-                        selectedOptionIndex = null;
-                        widget.onNext();
+                        final selected = widget.options[selectedOptionIndex!];
+                        widget.onNext(selected); // ✅ Pass selected value
+                        setState(() {
+                          selectedOptionIndex = null;
+                        });
                       },
             ),
           ],
@@ -142,8 +146,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 }
 
 class UpdateQuestionnaireFlow extends StatefulWidget {
-  bool fromSignup;
-  UpdateQuestionnaireFlow({super.key, this.fromSignup = false});
+  UpdateQuestionnaireFlow({super.key});
 
   @override
   State<UpdateQuestionnaireFlow> createState() =>
@@ -198,17 +201,38 @@ class _UpdateQuestionnaireFlowState extends State<UpdateQuestionnaireFlow> {
     },
   ];
 
-  void nextStep() {
+  Map<String, String> answers = {};
+
+  void nextStep(String selectedAnswer) async {
+    // Store current answer
+    switch (currentStep) {
+      case 0:
+        answers['cultureHeritage'] = selectedAnswer;
+        break;
+      case 1:
+        answers['favoriteDish'] = selectedAnswer;
+        break;
+      case 2:
+        answers['pageGoal'] = selectedAnswer;
+        break;
+      case 3:
+        answers['cookingFrequency'] = selectedAnswer;
+        break;
+    }
+
+    // Go to next step or call API
     if (currentStep < questions.length - 1) {
       setState(() {
         currentStep++;
       });
     } else {
-      if (widget.fromSignup) {
-        navigateToPage(SubscriptionView(fromSignup: widget.fromSignup));
-      } else {
-        Get.back();
-      }
+      // Final Step: Call API
+      await Get.put(UpdateQuestionController()).updateProfile(
+        cultureHeritage: answers['cultureHeritage'] ?? '',
+        favoriteDish: answers['favoriteDish'] ?? '',
+        pageGoal: answers['pageGoal'] ?? '',
+        cookingFrequency: answers['cookingFrequency'] ?? '',
+      );
     }
   }
 
@@ -216,13 +240,13 @@ class _UpdateQuestionnaireFlowState extends State<UpdateQuestionnaireFlow> {
   Widget build(BuildContext context) {
     final q = questions[currentStep];
     q['subtitle'] ??= "Please select an option";
-    return QuestionnairePage(
+    return UpdateQuestionnairePage(
       title: q['title']!.toString(),
       subtitle: q['subtitle']!.toString(),
       options: List<String>.from(q['options']! as List),
       currentStep: currentStep,
       totalSteps: questions.length,
-      onNext: nextStep,
+      onNext: (selectedAnswer) => nextStep(selectedAnswer),
     );
   }
 }

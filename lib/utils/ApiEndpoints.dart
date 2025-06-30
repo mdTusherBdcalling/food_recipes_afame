@@ -63,11 +63,30 @@ class ApiEndpoints {
   static const String addToFavorite = 'recipe/add_favorite';
   static const String updateRecipe =
       'recipe/update/'; // Append recipe ID dynamically
-  static const String allRecipes = 'recipe';
-  static const String singleRecipe = 'recipe/'; // Append recipe ID dynamically
+  static String allRecipes({
+    int? page,
+    int? limit,
+    String? searchTerm,
+    String? origin,
+  }) {
+    final uri = Uri.parse("recipe").replace(
+      queryParameters: {
+        if (page != null) 'page': '$page',
+        if (limit != null) 'limit': '$limit',
+        if (searchTerm != null && searchTerm.isNotEmpty)
+          'searchTerm': searchTerm,
+        if (origin != null && origin.isNotEmpty) 'origin': origin,
+      },
+    );
+
+    return uri.toString();
+  }
+
+  static const String singleRecipe = 'recipe/';
+  static const String recipeTending = "recipe/tending";
   static const String recipeWithHeritage = 'recipe/recommended';
   static const String recommendedRecipe =
-      'recipe?sort=-clickCount&page=1&limit=5';
+      'recipe?sort=-clickCount&page=1&limit=4';
   static const String myFavoriteRecipe = 'recipe/favorite';
   static const String removeFavorite = 'recipe/remove_favorite';
   static const String removeRecipe = 'recipe'; // Append recipe ID dynamically

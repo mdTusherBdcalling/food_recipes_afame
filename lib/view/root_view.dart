@@ -10,19 +10,18 @@ import 'package:food_recipes_afame/utils/image_paths.dart';
 
 class RootView extends StatefulWidget {
   const RootView({super.key});
+  static int currentIndex = 0;
 
   @override
   State<RootView> createState() => _RootViewState();
 }
 
 class _RootViewState extends State<RootView> {
-  int currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: currentIndex,
+        index: RootView.currentIndex,
         children: [
           HomeView(),
           ExploreView(),
@@ -33,10 +32,10 @@ class _RootViewState extends State<RootView> {
         ],
       ),
       bottomNavigationBar: AnimatedBottomNavBar(
-        currentIndex: currentIndex,
+        currentIndex: RootView.currentIndex,
         onTap: (index) {
           setState(() {
-            currentIndex = index;
+            RootView.currentIndex = index;
           });
         },
       ),

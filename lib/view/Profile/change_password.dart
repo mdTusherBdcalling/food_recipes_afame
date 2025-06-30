@@ -1,27 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Authentication/forget_password_view.dart';
+import 'package:food_recipes_afame/controller/profile/ChangePasswordController.dart';
+import 'package:get/get.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
-import 'package:get/get.dart';
+import 'package:food_recipes_afame/view/Authentication/forget_password_view.dart';
 
-class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({Key? key}) : super(key: key);
-
-  @override
-  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
-}
-
-class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  final TextEditingController currentPasswordController =
-      TextEditingController();
-  final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  bool isCurrentPasswordVisible = false;
-  bool isNewPasswordVisible = false;
-  bool isConfirmPasswordVisible = false;
+class ChangePasswordScreen extends StatelessWidget {
+  final controller = Get.put(ChangePasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,95 +16,85 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         title: commonText("Change Password", size: 18, isBold: true),
         centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        height: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
+      body: Obx(
+        () => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          height: double.infinity,
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
 
-            // Current Password Field
-            commonTextfieldWithTitle(
-              "Current Password",
-              currentPasswordController,
-              hintText: "Enter your password",
-              assetIconPath: ImagePaths.lock,
+              /// Current Password
+              commonTextfieldWithTitle(
+                "Current Password",
+                controller.oldPasswordController,
+                hintText: "Enter your password",
+                assetIconPath: ImagePaths.lock,
+                isPasswordVisible: controller.isOldPasswordVisible.value,
+                issuffixIconVisible: true,
+                changePasswordVisibility: () {
+                  controller.isOldPasswordVisible.toggle();
+                },
+              ),
 
-              isPasswordVisible: isCurrentPasswordVisible,
-              issuffixIconVisible: true,
-              changePasswordVisibility: () {
-                setState(() {
-                  isCurrentPasswordVisible = !isCurrentPasswordVisible;
-                });
-              },
-            ),
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            // New Password Field
-            commonTextfieldWithTitle(
-              "New Password",
-              newPasswordController,
-              hintText: "Enter your password",
-              assetIconPath: ImagePaths.lock,
+              /// New Password
+              commonTextfieldWithTitle(
+                "New Password",
+                controller.newPasswordController,
+                hintText: "Enter new password",
+                assetIconPath: ImagePaths.lock,
+                isPasswordVisible: controller.isNewPasswordVisible.value,
+                issuffixIconVisible: true,
+                changePasswordVisibility: () {
+                  controller.isNewPasswordVisible.toggle();
+                },
+              ),
 
-              isPasswordVisible: isNewPasswordVisible,
-              issuffixIconVisible: true,
-              changePasswordVisibility: () {
-                setState(() {
-                  isNewPasswordVisible = !isNewPasswordVisible;
-                });
-              },
-            ),
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            // Confirm New Password Field
-            commonTextfieldWithTitle(
-              "Confirm New Password",
-              confirmPasswordController,
-              hintText: "Enter your password",
-              assetIconPath: ImagePaths.lock,
+              /// Confirm Password
+              commonTextfieldWithTitle(
+                "Confirm New Password",
+                controller.confirmPasswordController,
+                hintText: "Re-enter new password",
+                assetIconPath: ImagePaths.lock,
+                isPasswordVisible: controller.isConfirmPasswordVisible.value,
+                issuffixIconVisible: true,
+                changePasswordVisibility: () {
+                  controller.isConfirmPasswordVisible.toggle();
+                },
+              ),
 
-              isPasswordVisible: isConfirmPasswordVisible,
-              issuffixIconVisible: true,
-              changePasswordVisibility: () {
-                setState(() {
-                  isConfirmPasswordVisible = !isConfirmPasswordVisible;
-                });
-              },
-            ),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              const SizedBox(height: 5),
 
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.to(ForgotPasswordView());
-                  },
-                  child: commonText("Forgot Password", isBold: true),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () => Get.to(ForgotPasswordView()),
+                    child: commonText("Forgot Password", isBold: true),
+                  ),
+                ],
+              ),
 
-            // Change Password Button
-            commonButton(
-              "Change Password",
+              const SizedBox(height: 30),
 
-              textColor: AppColors.white,
-              onTap: () {
-                // Handle change password logic here
-                print("Password changed!");
-              },
-            ),
-          ],
+              controller.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : commonButton(
+                    "Change Password",
+                    textColor: AppColors.white,
+                    onTap: controller.changePassword,
+                  ),
+            ],
+          ),
         ),
       ),
     );

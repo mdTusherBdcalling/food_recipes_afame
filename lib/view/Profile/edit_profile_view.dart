@@ -30,25 +30,42 @@ class EditProfileView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Column(
           children: [
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                CircleAvatar(
-                  radius: 48,
-                  backgroundColor: AppColors.primary,
-                  child: Image.asset("assets/icons/profile/profile (2).png"),
+            Obx(() {
+              return InkWell(
+                onTap: () {
+                  controller.pickImage();
+                },
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 48,
+                      backgroundColor: AppColors.primary,
+                      backgroundImage:
+                          controller.selectedImage.value != null
+                              ? FileImage(controller.selectedImage.value!)
+                              : const AssetImage(
+                                    "assets/icons/profile/profile (2).png",
+                                  )
+                                  as ImageProvider,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      padding: const EdgeInsets.all(4),
+                      child: const Icon(
+                        Icons.edit,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                  padding: const EdgeInsets.all(4),
-                  child: const Icon(Icons.edit, size: 20, color: Colors.white),
-                ),
-              ],
-            ),
+              );
+            }),
 
             const SizedBox(height: 24),
 

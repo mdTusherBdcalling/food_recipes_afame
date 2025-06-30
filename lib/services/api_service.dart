@@ -25,12 +25,14 @@ class ApiService {
   }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
 
+    log(url.toString());
     final headers = await _getHeaders();
 
     final response = await http.get(
       url,
       headers: (extraHeader != null) ? extraHeader : headers,
     );
+
     log(response.body);
     return _processResponse(response);
   }

@@ -27,8 +27,7 @@ class ProfileView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final user = controller.user.value;
-            if (user == null)
+            if (controller.user.value == null)
               return commonText("No user data", size: 16, isBold: true);
 
             return Column(
@@ -39,7 +38,9 @@ class ProfileView extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 36,
-                      backgroundImage: NetworkImage(user.image),
+                      backgroundImage: NetworkImage(
+                        controller.user.value!.image,
+                      ),
                     ),
 
                     const SizedBox(width: 16),
@@ -47,10 +48,16 @@ class ProfileView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          commonText(user.name, size: 20, isBold: true),
+                          commonText(
+                            controller.user.value!.name,
+                            size: 20,
+                            isBold: true,
+                          ),
 
                           commonText(
-                            (user.phone != null) ? user.phone! : user.email,
+                            (controller.user.value!.phone != null)
+                                ? controller.user.value!.phone!
+                                : controller.user.value!.email,
                             maxline: 1,
                             size: 14,
                           ),
@@ -91,7 +98,12 @@ class ProfileView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        navigateToPage(EditProfileView());
+                        navigateToPage(
+                          EditProfileView(),
+                          ontap: (p0) {
+                            controller.fetchUserProfile();
+                          },
+                        );
                       },
                       child: Column(
                         children: [

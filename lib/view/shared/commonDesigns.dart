@@ -114,35 +114,40 @@ class RecipeCard extends StatelessWidget {
 
                   Row(
                     children: [
-                      Icon(
-                        Icons.access_time_filled_outlined,
-                        size: 16,
-                        color: Colors.green,
-                      ),
-
-                      commonText(" $time", size: 14),
-
                       Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.yellow.shade100,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: commonText(
-                                difficulty,
-                                size: 14,
-                                isBold: true,
-                              ),
+                            Icon(
+                              Icons.access_time_filled_outlined,
+                              size: 16,
+                              color: Colors.green,
+                            ),
+                            Expanded(
+                              child: commonText(" $time", size: 14, maxline: 1),
                             ),
                           ],
                         ),
+                      ),
+                      SizedBox(width: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.yellow.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: commonText(
+                              difficulty,
+                              size: 14,
+                              isBold: true,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

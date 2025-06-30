@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/models/authentication/login_response_model.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
@@ -58,6 +60,7 @@ class SigninController extends GetxController {
       // Navigate to root/home screen
       Get.offAll(() => RootView());
     } catch (e) {
+      log(e.toString());
       if (e is ApiException) {
         commonSnackbar(
           title: "Login Failed",
