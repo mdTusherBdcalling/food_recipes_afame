@@ -19,22 +19,22 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-  final List<Map<String, dynamic>> trending = [
-    {
-      "title": "Healthy Taco Salad with fresh vegetable",
-      "imageUrl": "https://via.placeholder.com/300x180.png?text=Taco+Salad",
-      "author": "Olivia Rizka",
-      "time": "12 Min",
-      "isFavorite": false,
-    },
-    {
-      "title": "Asian white with extra vegetables",
-      "imageUrl": "https://via.placeholder.com/300x180.png?text=Asian+Veg",
-      "author": "James",
-      "time": "18 Min",
-      "isFavorite": false,
-    },
-  ];
+  // final List<Map<String, dynamic>> trending = [
+  //   {
+  //     "title": "Healthy Taco Salad with fresh vegetable",
+  //     "imageUrl": "https://via.placeholder.com/300x180.png?text=Taco+Salad",
+  //     "author": "Olivia Rizka",
+  //     "time": "12 Min",
+  //     "isFavorite": false,
+  //   },
+  //   {
+  //     "title": "Asian white with extra vegetables",
+  //     "imageUrl": "https://via.placeholder.com/300x180.png?text=Asian+Veg",
+  //     "author": "James",
+  //     "time": "18 Min",
+  //     "isFavorite": false,
+  //   },
+  // ];
 
   final HomeController homeController = Get.put(HomeController());
   @override
@@ -182,10 +182,10 @@ class _HomeViewState extends State<HomeView> {
       height: 190,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: trending.length,
+        itemCount: homeController.trendingRecipes.length,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
-          final item = trending[index];
+        
           return Stack(
             children: [
               Image.asset(ImagePaths.cardBackground),
@@ -201,7 +201,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           const Spacer(),
                           commonText(
-                            item['title'],
+                            homeController.trendingRecipes[index].recipeName,
                             size: 16,
                             fontWeight: FontWeight.w500,
                             maxline: 2,
@@ -212,12 +212,12 @@ class _HomeViewState extends State<HomeView> {
                               CircleAvatar(
                                 radius: 12,
                                 backgroundImage: NetworkImage(
-                                  "https://randomuser.me/api/portraits/women/65.jpg",
+                                  homeController.trendingRecipes[index].userImage,
                                 ),
                               ),
                               const SizedBox(width: 8),
                               commonText(
-                                item['author'],
+                                homeController.trendingRecipes[index].userName,
                                 size: 14,
                                 color: Colors.black87,
                               ),
@@ -232,7 +232,7 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         const Icon(Icons.schedule, size: 16),
                         const SizedBox(width: 4),
-                        commonText(item['time'], size: 14),
+                        commonText(homeController.trendingRecipes[index].estimateTime, size: 14),
                       ],
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:food_recipes_afame/models/home/tending_model.dart';
 import 'package:food_recipes_afame/models/recipi_model.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
@@ -5,7 +6,7 @@ import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
 
 class HomeController extends GetxController {
   RxBool isLoading = false.obs;
-  RxList<RecipeModel> trendingRecipes = <RecipeModel>[].obs;
+  RxList<RelatedRecipeItem> trendingRecipes = <RelatedRecipeItem>[].obs;
   RxList<RecipeModel> recommendedRecipes = <RecipeModel>[].obs;
   RxList<RecipeModel> heritageRecipes = <RecipeModel>[].obs;
 
@@ -13,6 +14,8 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAllRecipes();
+    fetchTrendingRecipes();
+    fetchHeritageRecipes();
   }
 
   Future<void> fetchAllRecipes() async {
@@ -27,9 +30,12 @@ class HomeController extends GetxController {
 
   Future<void> fetchTrendingRecipes() async {
     try {
-      final response = await ApiService().get(ApiEndpoints.recipeTending);
-      final resultList = response['data']['result'] as List;
-      trendingRecipes.assignAll(resultList.map((e) => RecipeModel.fromJson(e)));
+     final response = await ApiService().get(ApiEndpoints.recipeTending);
+    final resultList = (response['data']['result'] as List<dynamic>)
+        .map((e) => RelatedRecipeItem.fromJson(e))
+        .toList();
+
+    trendingRecipes.assignAll(resultList);
     } catch (e) {
       print("Error fetching trending recipes: $e");
     }
@@ -56,4 +62,9 @@ class HomeController extends GetxController {
       print("Error fetching heritage recipes: $e");
     }
   }
+
+
+
+
+
 }
