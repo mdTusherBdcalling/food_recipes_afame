@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/models/expolore/region_model.dart';
@@ -75,7 +74,7 @@ class ExploreController extends GetxController {
         searchTerm: searchTerm,
         origin: origin,
       );
-      log(url + "..............................");
+
       final response = await ApiService().get(url);
       final resultList = response['data']['result'] as List;
 

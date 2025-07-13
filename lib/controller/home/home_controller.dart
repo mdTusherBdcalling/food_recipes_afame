@@ -56,8 +56,10 @@ class HomeController extends GetxController {
   Future<void> fetchHeritageRecipes() async {
     try {
       final response = await ApiService().get(ApiEndpoints.recipeWithHeritage);
-      final resultList = response['data']['result'] as List;
+      final resultList = response['data'] as List;
       heritageRecipes.assignAll(resultList.map((e) => RecipeModel.fromJson(e)));
+
+
     } catch (e) {
       print("Error fetching heritage recipes: $e");
     }

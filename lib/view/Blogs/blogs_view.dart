@@ -1,7 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:food_recipes_afame/view/Blogs/blog_details_page.dart';
+import 'package:food_recipes_afame/controller/blog/blog_controller.dart';
+import 'package:food_recipes_afame/models/blog/blog_model.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/view/Blogs/blog_details_page.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class BlogsView extends StatefulWidget {
   const BlogsView({super.key});
@@ -14,52 +20,45 @@ class _BlogsViewState extends State<BlogsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Map<String, String>> blogBanners = [
-    {
-      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-      "title": "Learn How to Become a Great Writer Right Now!",
-      "description":
-          "Explore the rich history and impact of spices on cuisines around the world.",
-      "date": "Jan 27, 2025",
-      "comments": "5 Comments",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-      "title": "Cooking Secrets From The Pros You Should Know",
-      "description":
-          "Explore the rich history and impact of spices on cuisines around the world.",
-      "date": "Jan 27, 2025",
-      "comments": "5 Comments",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-      "title": "Top 10 Healthy Recipes for Every Season",
-      "description":
-          "Explore the rich history and impact of spices on cuisines around the world.",
-      "date": "Jan 27, 2025",
-      "comments": "5 Comments",
-    },
-    {
-      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-      "title": "Top 10 Healthy Recipes for Every Season",
-      "description":
-          "Explore the rich history and impact of spices on cuisines around the world.",
-      "date": "Jan 27, 2025",
-      "comments": "5 Comments",
-    },
-  ];
+  // final List<Map<String, String>> blogBanners = [
+  //   {
+  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+  //     "title": "Learn How to Become a Great Writer Right Now!",
+  //     "description":
+  //         "Explore the rich history and impact of spices on cuisines around the world.",
+  //     "date": "Jan 27, 2025",
+  //     "comments": "5 Comments",
+  //   },
+  //   {
+  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+  //     "title": "Cooking Secrets From The Pros You Should Know",
+  //     "description":
+  //         "Explore the rich history and impact of spices on cuisines around the world.",
+  //     "date": "Jan 27, 2025",
+  //     "comments": "5 Comments",
+  //   },
+  //   {
+  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+  //     "title": "Top 10 Healthy Recipes for Every Season",
+  //     "description":
+  //         "Explore the rich history and impact of spices on cuisines around the world.",
+  //     "date": "Jan 27, 2025",
+  //     "comments": "5 Comments",
+  //   },
+  //   {
+  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+  //     "title": "Top 10 Healthy Recipes for Every Season",
+  //     "description":
+  //         "Explore the rich history and impact of spices on cuisines around the world.",
+  //     "date": "Jan 27, 2025",
+  //     "comments": "5 Comments",
+  //   },
+  // ];
 
-  final List<Map<String, String>> recentBlogs = List.generate(
-    5,
-    (index) => {
-      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-      "title": "The History of Spices and Their Cultural Significance.",
-      "description":
-          "Explore the rich history and impact of spices on cuisines around the world.",
-      "date": "Jan 27, 2025",
-      "comments": "5 Comments",
-    },
-  );
+
+
+final BlogController controller=Get.put(BlogController());
+
 
   @override
   void dispose() {
@@ -74,20 +73,20 @@ class _BlogsViewState extends State<BlogsView> {
         children: [
           PageView.builder(
             controller: _pageController,
-            itemCount: blogBanners.length,
+            itemCount: max(controller.blogs.length,4),
             onPageChanged: (page) {
               setState(() {
                 _currentPage = page;
               });
             },
             itemBuilder: (context, index) {
-              final banner = blogBanners[index];
+           
               return Stack(
                 fit: StackFit.expand,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(banner["image"]!, fit: BoxFit.cover),
+                    child: Image.network(controller.blogs[index].image, fit: BoxFit.cover),
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -111,7 +110,7 @@ class _BlogsViewState extends State<BlogsView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           commonText(
-                            banner["title"]!,
+                            controller.blogs[index].headline,
                             size: 20,
                             maxline: 2,
                             isBold: true,
@@ -120,9 +119,13 @@ class _BlogsViewState extends State<BlogsView> {
                           const SizedBox(height: 8),
                           InkWell(
                             onTap: () {
-                              navigateToPage(
-                                BlogDetailsPage(blog: recentBlogs[index]),
-                              );
+                          navigateToPage(
+                            BlogDetailsPage(title: controller.blogs[index].headline,
+                            description:  controller.blogs[index].description,
+                            image: controller.blogs[index].image,
+                             date: DateFormat('MMMM d, y').format(DateTime.parse(controller.blogs[index].createdAt.toString()))
+                            ),
+                          );
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -158,7 +161,7 @@ class _BlogsViewState extends State<BlogsView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                blogBanners.length,
+                max(controller.blogs.length,4),
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -180,7 +183,7 @@ class _BlogsViewState extends State<BlogsView> {
     );
   }
 
-  Widget _buildBlogCard(Map<String, String> blog) {
+  Widget _buildBlogCard(BlogModel blog) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.primary.withOpacity(0.15),
@@ -194,7 +197,7 @@ class _BlogsViewState extends State<BlogsView> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                blog["image"]!,
+                blog.image,
 
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -203,7 +206,7 @@ class _BlogsViewState extends State<BlogsView> {
           ),
           const SizedBox(height: 8),
           commonText(
-            blog["title"]!,
+            blog.headline,
             size: 14,
             isBold: true,
             color: Colors.black87,
@@ -213,8 +216,12 @@ class _BlogsViewState extends State<BlogsView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commonText(blog["date"]!, size: 12, color: Colors.black54),
-              commonText(blog["comments"]!, size: 12, color: Colors.black54),
+              Flexible(
+                child: commonText(
+                   DateFormat('MMMM d, y').format(DateTime.parse(blog.createdAt.toString())), size: 12, color: Colors.black54,maxline: 1),
+              ),
+              SizedBox(width: 10,),
+              Flexible(child: commonText(blog.description, size: 12, color: Colors.black54,maxline: 1)),
             ],
           ),
         ],
@@ -240,7 +247,7 @@ class _BlogsViewState extends State<BlogsView> {
                 GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: recentBlogs.length,
+                  itemCount: controller.blogs.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 12,
@@ -251,10 +258,15 @@ class _BlogsViewState extends State<BlogsView> {
                       (context, index) => InkWell(
                         onTap: () {
                           navigateToPage(
-                            BlogDetailsPage(blog: blogBanners[index]),
+                            BlogDetailsPage(title: controller.blogs[index].headline,
+                            description:  controller.blogs[index].description,
+                            image:  controller.blogs[index].image,
+                             date:     DateFormat('MMMM d, y').format(DateTime.parse(controller.blogs[index].createdAt.toString()))
+                            
+                            ),
                           );
                         },
-                        child: _buildBlogCard(recentBlogs[index]),
+                        child: _buildBlogCard(controller.blogs[index]),
                       ),
                 ),
               ],

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:food_recipes_afame/controller/statics_content_controller.dart/trems_and_policy_controller.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
@@ -7,10 +10,11 @@ class TermsAndConditonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+       final controller = Get.put(TremsAndConditionController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: commonText("About Us", size: 18, isBold: true),
+        title: commonText("Terms & Policies", size: 18, isBold: true),
         leading: InkWell(
           onTap: () {
             Get.back();
@@ -18,13 +22,27 @@ class TermsAndConditonScreen extends StatelessWidget {
           child: Icon(Icons.arrow_back),
         ),
       ),
+   backgroundColor: AppColors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: commonText(
-          "Lorem ipsum dolor sit amet consectetur. Mauris cursus laoreet ut egestas. Faucibus elit nunc luctus felis. Nullam faucibus quisque tristique elementum sagittis tempus at lectus. Mattis ipsum amet eu aliquam lorem mi scelerisque sodales viverra. Convallis pretium consequat risus ut augue. Parturient at aliquam egestas diam sed. Sagittis et malesuada sem cras. Maecenas eu aliquam id feugiat gravida nisl ultricies. Integer dui odio nibh quis. Faucibus a luctus amet enim lobortis odio. In turpis sed quam sed etiam senectus bibendum in a. Sagittis dui fringilla morbi sit interdum netus. Lacinia nulla at fusce pellentesque elementum suscipit venenatis. Nisl id aliquet quis id sed cursus vel senectus risus. Neque donec aliquet urna dictumst. Tortor semper lorem lacus ipsum commodo. Eget amet urna montes libero enim in semper. Nisi vivamus consectetur euismod ut eget sit ultricies cursus lectus. Nisl cursus fermentum tempor at.",
-          size: 16,
-          fontWeight: FontWeight.w500,
-        ),
+        padding: const EdgeInsets.all(20.0),
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (controller.policyData.value == null) {
+            return const Center(child: Text("No Terms & Policies found."));
+          }
+
+          return SingleChildScrollView(
+            child: Html(
+              data: controller.policyData.value!.content,
+              style: {
+                "body": Style(fontSize: FontSize.medium),
+              },
+            ),
+          );
+        }),
       ),
     );
   }

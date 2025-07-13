@@ -1,44 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+
+import 'package:food_recipes_afame/controller/statics_content_controller.dart/PrivacyPolicyController.dart';
+import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
+import 'package:get/get.dart';
+
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(PrivacyPolicyController());
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: Colors.transparent,
         title: commonText("Privacy Policy", size: 16.0, isBold: true),
         centerTitle: true,
         leading: const BackButton(),
       ),
+      backgroundColor: AppColors.white,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              commonText(
-                "Lorem ipsum dolor sit amet consectetur. . Convallis vel risus egestas ornare proin in. Arcu sodales tempus tellus mattis ac elit hendrerit sapien venenatis id gravida nisl.",
-                size: 14.0,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  commonText("• ", size: 20),
-                  Expanded(
-                    child: commonText(
-                      "Lorem ipsum dolor sit amet eu aliquam lorem mi scelerisque sodales viverra. Convallis pretium consequat risus ut augue. Parturient at aliquam egestas diam sed. Sagittis et malesuada sem cras. Maecenas eu aliquam id feugiat gravida nisl ultricies. Integer dui odio nibh quis. Faucibus a luctus amet enim lobortis odio. In turpis sed quam sed etiam senectus bibendum in a. Sagittis dui fringilla morbi sit interdum netus. Lacinia nulla at fusce pellentesque elementum suscipit venenatis. Nisl id aliquet quis id sed cursus vel senectus risus. Neque donec aliquet urna dictumst. Tortor semper lorem lacus ipsum commodo. Eget amet urna montes libero enim in semper.",
-                      size: 14.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (controller.policyData.value == null) {
+            return const Center(child: Text("No privacy policy found."));
+          }
+
+          return SingleChildScrollView(
+            child: Html(
+              data: controller.policyData.value!.content,
+              style: {
+                "body": Style(fontSize: FontSize.medium),
+              },
+            ),
+          );
+        }),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/create_recipe.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
@@ -342,12 +343,28 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
             const SizedBox(height: 20),
 
             // Submit Button
-            commonButton(
-              "Create Recipe",
-              onTap: () {
-                Get.back();
-              },
-            ),
+    commonButton(
+  "Create Recipe",
+  onTap: () {
+    final controller = Get.put(CreateRecipeController());
+
+    controller.createRecipe(
+      title: titleController.text.trim(),
+      origin: originController.text.trim(),
+      description: descriptionController.text.trim(),
+      background: backgroundController.text.trim(),
+      difficulty: selectedDifficulty ?? 'Medium',
+      prepTime: int.tryParse(prepTimeController.text.trim()) ?? 0,
+      cookTime: int.tryParse(cookTimeController.text.trim()) ?? 0,
+      ingredients: ingredients.map((e) => {
+        'name': e['name']!.text,
+        'quantity': e['quantity']!.text,
+      }).toList(),
+      instructions: instructions.map((e) => e.text).toList(),
+    );
+  },
+),
+
 
             const SizedBox(height: 40),
           ],

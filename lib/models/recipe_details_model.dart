@@ -40,6 +40,7 @@ class RecipeDetail {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int clickCount;
+  bool isFavorite;
 
   RecipeDetail({
     required this.id,
@@ -58,6 +59,7 @@ class RecipeDetail {
     required this.createdAt,
     required this.updatedAt,
     required this.clickCount,
+    required this.isFavorite
   });
 
   factory RecipeDetail.fromJson(Map<String, dynamic> json) {
@@ -78,6 +80,7 @@ class RecipeDetail {
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       clickCount: json['clickCount'],
+      isFavorite: json["isFavorite"]??false
     );
   }
 }

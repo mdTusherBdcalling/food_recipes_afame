@@ -56,17 +56,17 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     if (homeController.trendingRecipes.isNotEmpty)
                       _buildSectionTitle("Trending This Week"),
-                    const SizedBox(height: 12),
-                    _buildTrendingList(),
-                    const SizedBox(height: 24),
+                       if (homeController.trendingRecipes.isNotEmpty)   const SizedBox(height: 12),
+                        if (homeController.trendingRecipes.isNotEmpty)  _buildTrendingList(),
+                        if (homeController.trendingRecipes.isNotEmpty)  const SizedBox(height: 24),
                     if (homeController.recommendedRecipes.isNotEmpty)
                       _buildSectionTitle("Recommended For You"),
-                    _buildRecipeGrid(homeController.recommendedRecipes),
-                    const SizedBox(height: 24),
+                     if (homeController.recommendedRecipes.isNotEmpty)   _buildRecipeGrid(homeController.recommendedRecipes),
+                      if (homeController.recommendedRecipes.isNotEmpty)  const SizedBox(height: 24),
                     if (homeController.heritageRecipes.isNotEmpty)
                       _buildSectionTitle("Popular From Your Heritage"),
-                    _buildRecipeGrid(homeController.heritageRecipes),
-                    const SizedBox(height: 80),
+                   if (homeController.heritageRecipes.isNotEmpty) _buildRecipeGrid(homeController.heritageRecipes),
+                if (homeController.heritageRecipes.isNotEmpty)    const SizedBox(height: 80),
                   ],
                 ),
               );

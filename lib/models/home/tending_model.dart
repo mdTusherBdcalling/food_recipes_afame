@@ -1,3 +1,5 @@
+import 'package:food_recipes_afame/utils/helper.dart';
+
 class RelatedRecipeMeta {
   final int total;
   final int totalPage;
@@ -44,7 +46,7 @@ class RelatedRecipeItem {
       recipeName: json['recipeName'] ?? '',
       estimateTime: json['estimateTime'] ?? '',
       userName: json['userName'] ?? '',
-      userImage: json['userImage'] ?? '',
+      userImage: getFullImagePath(json['userImage'] ?? ''),
       userId: json['userId'] ?? '',
     );
   }

@@ -1,12 +1,22 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
 class BlogDetailsPage extends StatefulWidget {
-  final Map<String, String> blog;
+  String description;
+  
+  String title;
+  
+  String image;
+  
+  String date;
 
-  const BlogDetailsPage({super.key, required this.blog});
+
+
+   BlogDetailsPage({super.key,required this.title,required this.description,required this.image,required this.date});
 
   @override
   State<BlogDetailsPage> createState() => _BlogDetailsPageState();
@@ -35,13 +45,13 @@ class _BlogDetailsPageState extends State<BlogDetailsPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.blog["image"]!),
+                    image: NetworkImage(widget.image),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               SizedBox(height: 16),
-              commonText(widget.blog["title"]!, size: 18, isBold: true),
+              commonText(widget.title, size: 18, isBold: true),
 
               SizedBox(height: 8),
               Row(
@@ -49,7 +59,7 @@ class _BlogDetailsPageState extends State<BlogDetailsPage> {
                   Icon(Icons.calendar_month),
                   Flexible(
                     child: commonText(
-                      widget.blog["date"]!,
+                      widget.date,
                       size: 14,
                       isBold: true,
                     ),
@@ -57,7 +67,7 @@ class _BlogDetailsPageState extends State<BlogDetailsPage> {
                 ],
               ),
               SizedBox(height: 8),
-              commonText(widget.blog["description"]!, size: 16, isBold: true),
+              commonText(widget.description, size: 16, isBold: true),
             ],
           ),
         ),
