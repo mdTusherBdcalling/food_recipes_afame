@@ -17,7 +17,7 @@ class RecipeDetailModel {
     return RecipeDetailModel(
       success: json['success'],
       statusCode: json['statusCode'],
-      message: json['message'],
+      message: json['message']??"",
       data: RecipeDetail.fromJson(json['data']),
     );
   }
@@ -64,19 +64,19 @@ class RecipeDetail {
 
   factory RecipeDetail.fromJson(Map<String, dynamic> json) {
     return RecipeDetail(
-      id: json['_id'],
+      id: json['_id']??"",
       userId: User.fromJson(json['userId']),
-      music: json['music'],
-      recipeName: json['recipeName'],
-      estimateTime: json['estimateTime'],
-      difficultyLevel: json['difficultyLevel'],
-      origin: json['origin'],
-      description: json['description'],
-      ingredients: json['ingredients'],
-      instruction: json['instruction'],
-      cultureBackground: json['cultureBackground'],
+      music: json['music']??"",
+      recipeName: json['recipeName']??"",
+      estimateTime: json['estimateTime']??"",
+      difficultyLevel: json['difficultyLevel']??"",
+      origin: json['origin']??"",
+      description: json['description']??"",
+      ingredients: json['ingredients']??"",
+      instruction: json['instruction']??"",
+      cultureBackground: json['cultureBackground']??"",
       image: getFullImagePath(json['image'] ?? ""),
-      isAccepted: json['isAccepted'],
+      isAccepted: json['isAccepted']??false,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       clickCount: json['clickCount'],

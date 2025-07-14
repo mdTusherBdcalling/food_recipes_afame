@@ -1,39 +1,62 @@
-
 import 'package:food_recipes_afame/utils/helper.dart';
 
-class MyRecipeData {
-  final MyRecipeMeta meta;
-  final List<RecipeItem> result;
+class MyRecipesResponse {
+  final bool success;
+  final int statusCode;
+  final String message;
+  final MyRecipesData data;
 
-  MyRecipeData({
+  MyRecipesResponse({
+    required this.success,
+    required this.statusCode,
+    required this.message,
+    required this.data,
+  });
+
+  factory MyRecipesResponse.fromJson(Map<String, dynamic> json) {
+    return MyRecipesResponse(
+      success: json['success'],
+      statusCode: json['statusCode'],
+      message: json['message'],
+      data: MyRecipesData.fromJson(json['data']),
+    );
+  }
+}
+
+class MyRecipesData {
+  final MetaData meta;
+  final List<MyRecipe> result;
+
+  MyRecipesData({
     required this.meta,
     required this.result,
   });
 
-  factory MyRecipeData.fromJson(Map<String, dynamic> json) {
-    return MyRecipeData(
-      meta: MyRecipeMeta.fromJson(json['meta']),
-      result: (json['result'] as List)
-          .map((e) => RecipeItem.fromJson(e))
+  factory MyRecipesData.fromJson(Map<String, dynamic> json) {
+    return MyRecipesData(
+      meta: MetaData.fromJson(json['meta']),
+      result: (json['result'] as List<dynamic>)
+          .map((e) => MyRecipe.fromJson(e))
           .toList(),
     );
   }
 }
-class MyRecipeMeta {
+
+class MetaData {
   final int page;
   final int limit;
   final int total;
   final int totalPage;
 
-  MyRecipeMeta({
+  MetaData({
     required this.page,
     required this.limit,
     required this.total,
     required this.totalPage,
   });
 
-  factory MyRecipeMeta.fromJson(Map<String, dynamic> json) {
-    return MyRecipeMeta(
+  factory MetaData.fromJson(Map<String, dynamic> json) {
+    return MetaData(
       page: json['page'],
       limit: json['limit'],
       total: json['total'],
@@ -41,7 +64,8 @@ class MyRecipeMeta {
     );
   }
 }
-class RecipeItem {
+
+class MyRecipe {
   final String id;
   final String userId;
   final String recipeName;
@@ -54,13 +78,11 @@ class RecipeItem {
   final String cultureBackground;
   final int clickCount;
   final String image;
-  final String music;
   final bool isAccepted;
-  final String createdAt;
-  final String updatedAt;
-  bool isFavorite;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
-  RecipeItem({
+  MyRecipe({
     required this.id,
     required this.userId,
     required this.recipeName,
@@ -73,32 +95,28 @@ class RecipeItem {
     required this.cultureBackground,
     required this.clickCount,
     required this.image,
-    required this.music,
     required this.isAccepted,
     required this.createdAt,
     required this.updatedAt,
-    required this.isFavorite
   });
 
-  factory RecipeItem.fromJson(Map<String, dynamic> json) {
-    return RecipeItem(
-      id: json['_id'],
-      userId: json['userId'],
-      recipeName: json['recipeName'],
-      estimateTime: json['estimateTime'],
-      difficultyLevel: json['difficultyLevel'],
-      origin: json['origin'],
-      description: json['description'],
-      ingredients: json['ingredients'],
-      instruction: json['instruction'],
-      cultureBackground: json['cultureBackground'],
-      clickCount: json['clickCount'],
+  factory MyRecipe.fromJson(Map<String, dynamic> json) {
+    return MyRecipe(
+      id: json['_id']??"",
+      userId: json['userId']??"",
+      recipeName: json['recipeName']??"",
+      estimateTime: json['estimateTime']??"",
+      difficultyLevel: json['difficultyLevel']??"",
+      origin: json['origin']??"",
+      description: json['description']??"",
+      ingredients: json['ingredients']??"",
+      instruction: json['instruction']??"",
+      cultureBackground: json['cultureBackground']??"",
+      clickCount: json['clickCount']??"",
       image: getFullImagePath(json['image']??""),
-      music: json['music'],
-      isAccepted: json['isAccepted'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      isFavorite: json['isFavorite']??false
+      isAccepted: json['isAccepted']??"",
+      createdAt: DateTime.parse(json['createdAt']??""),
+      updatedAt: DateTime.parse(json['updatedAt']??""),
     );
   }
 }

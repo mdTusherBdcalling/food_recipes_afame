@@ -38,14 +38,14 @@ class RecipeModel {
     required this.isAccepted,
     this.createdAt,
     this.updatedAt,
-    this.isFavorite = false,
+    required this.isFavorite,
   });
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) {
     return RecipeModel(
       id: json['_id'] ?? '',
       userId: json['userId'] ?? '',
-      music: json['music'],
+      music: json['music']??"",
       recipeName: json['recipeName'] ?? '',
       estimateTime: formatEstimateTime(json['estimateTime'] ?? ''),
       difficultyLevel: json['difficultyLevel'] ?? '',
@@ -59,13 +59,13 @@ class RecipeModel {
       isAccepted: json['isAccepted'] ?? false,
       createdAt:
           json['createdAt'] != null
-              ? DateTime.tryParse(json['createdAt'])
+              ? DateTime.tryParse(json['createdAt']??"")
               : null,
       updatedAt:
           json['updatedAt'] != null
-              ? DateTime.tryParse(json['updatedAt'])
+              ? DateTime.tryParse(json['updatedAt']??"")
               : null,
-      isFavorite: false, // default local state
+      isFavorite: json['isFavorite']??false
     );
   }
 

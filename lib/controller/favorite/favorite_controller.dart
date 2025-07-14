@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/favorite/add_favorite_controller.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/models/recipi_model.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
@@ -69,8 +70,15 @@ class FavoriteController extends GetxController {
   }
 
   void toggleFavorite(int index) {
-    final recipe = allRecipes[index];
+
+  final recipe = allRecipes[index];
+
+    Get.put(FavoriteRecipeController()).addRecipeToFavorites(recipe.id,recipe.isFavorite).then((value) {
+               
     recipe.isFavorite = !(recipe.isFavorite);
-    allRecipes[index] = recipe;
+    allRecipes[index] = recipe;                
+    },);
+
+
   }
 }

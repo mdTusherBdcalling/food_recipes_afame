@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/controller/explore_controller.dart';
+import 'package:food_recipes_afame/controller/favorite/add_favorite_controller.dart';
 import 'package:food_recipes_afame/view/HomePage/recipe_details_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
@@ -7,9 +8,14 @@ import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
-class ExploreView extends StatelessWidget {
+class ExploreView extends StatefulWidget {
   ExploreView({super.key});
 
+  @override
+  State<ExploreView> createState() => _ExploreViewState();
+}
+
+class _ExploreViewState extends State<ExploreView> {
   final ExploreController exploreController = Get.put(ExploreController());
 
   final TextEditingController searchController = TextEditingController();
@@ -100,7 +106,7 @@ class ExploreView extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.network(
-                                      exploreController.allRegions[index].image,
+                                      exploreController.allRegions[index].image,  errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                       height: double.infinity,
@@ -184,11 +190,17 @@ class ExploreView extends StatelessWidget {
                           isFavorite:
                               exploreController.allRecipes[index].isFavorite,
                           onFavoriteTap: () {
-                            final recipe = exploreController.allRecipes[index];
-                            recipe.isFavorite = !recipe.isFavorite;
-
-                            // Trigger UI update for that index
-                            exploreController.allRecipes[index] = recipe;
+                            Get.put(FavoriteRecipeController()).addRecipeToFavorites(exploreController
+                                  .allRecipes[index].id,exploreController
+                                  .allRecipes[index].isFavorite).then((value) {
+                if(value){
+                      setState(() {
+                exploreController
+                                  .allRecipes[index].isFavorite =!exploreController
+                                  .allRecipes[index].isFavorite  ;
+              });
+                }
+              },);
                           },
                           onTap: () {
                             navigateToPage(

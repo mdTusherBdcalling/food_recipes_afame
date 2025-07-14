@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:food_recipes_afame/models/subscription/subscription_model.dart';
+import 'package:food_recipes_afame/models/subscription/my_subscription_model.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
 import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
@@ -9,7 +9,7 @@ class ProfileController extends GetxController {
   final ApiService _apiService = ApiService();
   RxBool isLoading = false.obs;
   Rxn<UserData> user = Rxn<UserData>();
-  Rxn<SubscriptionData> subscription = Rxn<SubscriptionData>();
+  Rxn<MySubscriptionData> subscription = Rxn<MySubscriptionData>();
 
   @override
   void onInit() {
@@ -26,7 +26,7 @@ class ProfileController extends GetxController {
 
       // Fetch subscription details
       final subResponse = await _apiService.get(ApiEndpoints.mySubscription);
-      final subModel = SubscriptionModel.fromJson(subResponse);
+      final subModel = MySubscriptionModel.fromJson(subResponse);
       subscription.value = subModel.data;
     } catch (e) {
       log("Error fetching profile or subscription: $e");

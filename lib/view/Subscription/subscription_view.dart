@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/subscription/subscription_controller.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
@@ -16,6 +17,8 @@ class SubscriptionView extends StatefulWidget {
 
 class _SubscriptionViewState extends State<SubscriptionView> {
   bool isMonthlySelected = true;
+  final subscriptionController = Get.put(SubscriptionController());
+
 
   void togglePlan(bool monthly) {
     setState(() {
@@ -141,24 +144,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
 
   @override
   Widget build(BuildContext context) {
-    final freePlanFeatures = [
-      "Access to 30 recipes",
-      "Basic recipe search",
-      "One sample menu per week",
-      "10 favorite recipes",
-      "Community forums",
-    ];
-
-    final premiumPlanFeatures = [
-      "Unlimited recipes",
-      "Advanced filtering",
-      "Personalized weekly menus",
-      "Smart shopping lists",
-      "Save unlimited favorites",
-      "Recipe scaling",
-      "Offline access",
-      "Ad-free experience",
-    ];
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -216,93 +201,150 @@ class _SubscriptionViewState extends State<SubscriptionView> {
               ],
             ),
 
-            Expanded(
-              child: ListView(
-                children: [
-                  buildPlanCard(
-                    title: "Free Plan",
-                    subtitle: "Basic features to get started",
-                    price: "€0 forever",
-                    features: freePlanFeatures,
-                    button: GestureDetector(
-                      onTap: () {
-                        if (widget.fromSignup) {
-                          navigateToPage(RootView());
-                        } else {
-                          Get.back();
-                        }
-                      },
-                      child: Container(
-                        height: 48,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.primary),
-                        ),
-                        child: Center(
-                          child: commonText(
-                            "Start Free Trial",
-                            size: 16,
-                            color: AppColors.primary,
-                            isBold: true,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Column(
-                        children: [
-                          buildPlanCard(
-                            isMostPopular: true,
-                            title: "Premium Plan",
-                            subtitle: "Full access to all features",
-                            price: "€4.99 /month",
-                            features: premiumPlanFeatures,
-                            backgroundColor: Colors.yellow.shade50,
-                            borderColor: AppColors.primary,
-                            button: commonButton(
-                              "Get Started",
+            // Expanded(
+            //   child: ListView(
+            //     children: [
+            //       buildPlanCard(
+            //         title: "Free Plan",
+            //         subtitle: "Basic features to get started",
+            //         price: "€0 forever",
+            //         features: freePlanFeatures,
+            //         button: GestureDetector(
+            //           onTap: () {
+            //             if (widget.fromSignup) {
+            //               navigateToPage(RootView());
+            //             } else {
+            //               Get.back();
+            //             }
+            //           },
+            //           child: Container(
+            //             height: 48,
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(12),
+            //               border: Border.all(color: AppColors.primary),
+            //             ),
+            //             child: Center(
+            //               child: commonText(
+            //                 "Start Free Trial",
+            //                 size: 16,
+            //                 color: AppColors.primary,
+            //                 isBold: true,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       SizedBox(height: 20),
+            //       Stack(
+            //         alignment: Alignment.topCenter,
+            //         children: [
+            //           Column(
+            //             children: [
+            //               buildPlanCard(
+            //                 isMostPopular: true,
+            //                 title: "Premium Plan",
+            //                 subtitle: "Full access to all features",
+            //                 price: "€4.99 /month",
+            //                 features: premiumPlanFeatures,
+            //                 backgroundColor: Colors.yellow.shade50,
+            //                 borderColor: AppColors.primary,
+            //                 button: commonButton(
+            //                   "Get Started",
+            //                   onTap: () {
+            //                     // TODO: Get started with premium plan
+            //                   },
+            //                 ),
+            //                 bottomWidget: Center(
+            //                   child: commonText(
+            //                     "No commitment. Cancel anytime.",
+            //                     size: 12,
+            //                     color: Colors.black54,
+            //                     textAlign: TextAlign.center,
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //           Container(
+            //             padding: const EdgeInsets.symmetric(
+            //               horizontal: 16,
+            //               vertical: 8,
+            //             ),
+            //             decoration: BoxDecoration(
+            //               color: AppColors.primary,
+            //               borderRadius: BorderRadius.circular(20),
+            //             ),
+            //             child: commonText(
+            //               "Most Popular",
+            //               size: 16,
+            //               color: AppColors.white,
+            //               isBold: true,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          
+          Expanded(
+  child: Obx(() {
+    if (subscriptionController.isLoading.value) {
+      return Center(child: CircularProgressIndicator());
+    }
 
-                              onTap: () {
-                                // TODO: Get started with premium plan
-                              },
-                            ),
-                            bottomWidget: Center(
-                              child: commonText(
-                                "No commitment. Cancel anytime.",
-                                size: 12,
-                                color: Colors.black54,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: commonText(
-                          "Most Popular",
-                          size: 16,
-                          color: AppColors.white,
-                          isBold: true,
-                        ),
-                      ),
-                    ],
+    final filteredPlans = subscriptionController.subscriptions
+        .where((plan) =>
+            isMonthlySelected
+                ? plan.planCategory == 'monthly'
+                : plan.planCategory == 'yearly')
+        .toList();
+
+    return ListView.builder(
+      itemCount: filteredPlans.length,
+      itemBuilder: (context, index) {
+        final plan = filteredPlans[index];
+
+        return buildPlanCard(
+          title: plan.planName,
+          subtitle: plan.shortBio,
+          price:  "€${plan.price} / ${plan.timeline} days",
+          features: plan.facilities,
+          isMostPopular: plan.planName.toLowerCase() == "premium",
+          backgroundColor: plan.planName.toLowerCase() == "premium"
+              ? Colors.yellow.shade50
+              : Colors.white,
+          borderColor: plan.planName.toLowerCase() == "premium"
+              ? AppColors.primary
+              : Colors.grey.shade300,
+          button: commonButton(
+            plan.price == 0 ? "Start Free" : "Subscribe Now",
+            onTap: () {
+              if (widget.fromSignup || plan.price == 0) {
+                navigateToPage(RootView());
+              } else {
+                // TODO: Implement payment or upgrade logic
+              }
+            },
+          ),
+          bottomWidget: plan.price == 0
+              ? null
+              : Center(
+                  child: commonText(
+                    "No commitment. Cancel anytime.",
+                    size: 12,
+                    color: Colors.black54,
+                    textAlign: TextAlign.center,
                   ),
-                ],
-              ),
-            ),
+                ),
+        );
+      },
+    );
+  }),
+),
+
+          
           ],
         ),
       ),

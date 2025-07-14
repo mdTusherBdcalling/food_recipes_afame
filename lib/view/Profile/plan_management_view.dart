@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/models/subscription/my_subscription_model.dart';
 import 'package:food_recipes_afame/view/Subscription/subscription_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class PlanManagementView extends StatelessWidget {
-  const PlanManagementView({super.key});
+  final MySubscriptionData? data;
+  const PlanManagementView({super.key,required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +52,19 @@ class PlanManagementView extends StatelessWidget {
                   children: [
                     commonText("Current Plan", size: 16, isBold: true),
                     const SizedBox(height: 4),
-                    Row(
+                    (!(data == null ||
+                              DateTime.now().isAfter(
+                                data!.expiryIn,
+                              ))) ?Row(
                       children: [
                         Image.asset(ImagePaths.starIcon, height: 16, width: 16),
                         const SizedBox(width: 6),
                         commonText("Premium User", size: 14),
+                      ],
+                    ): Row(
+                      children: [
+                    
+                        commonText("Free User", size: 14),
                       ],
                     ),
                   ],
@@ -73,7 +84,7 @@ class PlanManagementView extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildInfoRow("Next Billing Date", "25th May, 2025"),
+                  _buildInfoRow("Next Billing Date", (data!=null)? DateFormat('MMMM dd, yyyy').format(data!.expiryIn):"Subscription Expired"),
                   const Divider(),
                   _buildInfoRow("Plan", "Premium"),
                   const Divider(),

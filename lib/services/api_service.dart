@@ -97,6 +97,26 @@ class ApiService {
     return _processResponse(response);
   }
 
+
+Future<dynamic> deleteWithBody(String endpoint, Map<String, dynamic> body) async {
+  final uri = Uri.parse(ApiEndpoints.baseUrl + endpoint);
+  final token = await LocalStorageService().getToken();
+
+  final request = http.Request("DELETE", uri);
+  request.headers.addAll({
+    "Content-Type": "application/json",
+    "Authorization": "Bearer $token",
+  });
+  request.body = jsonEncode(body);
+
+  final streamedResponse = await request.send();
+  final response = await http.Response.fromStream(streamedResponse);
+  return _processResponse(response);
+}
+
+
+
+
   dynamic _processResponse(http.Response response) {
     final statusCode = response.statusCode;
     final responseBody =

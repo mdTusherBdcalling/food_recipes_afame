@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:food_recipes_afame/models/blog/blog_model.dart';
 import 'package:food_recipes_afame/services/api_service.dart';

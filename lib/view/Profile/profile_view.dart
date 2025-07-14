@@ -156,7 +156,7 @@ class ProfileView extends StatelessWidget {
                                 ),
                             GestureDetector(
                               onTap: () {
-                                navigateToPage(PlanManagementView());
+                                navigateToPage(PlanManagementView(data: controller.subscription.value,));
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(

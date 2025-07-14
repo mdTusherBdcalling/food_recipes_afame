@@ -150,5 +150,5 @@ static String getBlogs({int? page, int? limit}) {
   return uri.toString();
 }
   static const String updateBlog = 'blog/'; // Append blog ID dynamically
-  static const String deleteBlog = 'blog/'; // Append blog ID dynamically
+  static const String deleteBlog = 'blog/';
 }

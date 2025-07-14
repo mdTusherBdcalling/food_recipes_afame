@@ -86,7 +86,7 @@ final BlogController controller=Get.put(BlogController());
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(controller.blogs[index].image, fit: BoxFit.cover),
+                    child: Image.network(controller.blogs[index].image, fit: BoxFit.cover,  errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),),
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -196,7 +196,7 @@ final BlogController controller=Get.put(BlogController());
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
+              child: Image.network(  errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),
                 blog.image,
 
                 width: double.infinity,

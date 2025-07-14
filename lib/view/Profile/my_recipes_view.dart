@@ -52,7 +52,7 @@ class MyRecipesView extends StatelessWidget {
                 title: item.recipeName,
                 time: item.estimateTime,
                 difficulty: item.difficultyLevel,
-                isFavorite: item.isFavorite,
+                
                 onFavoriteTap: () {
                   // Optional: toggle favorite locally or call API
                   // item.isFavorite = !item.isFavorite;

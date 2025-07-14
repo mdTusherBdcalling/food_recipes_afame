@@ -243,32 +243,32 @@ Widget commonButton(
   );
 }
 
-// Widget commonSmallButton({
-//   required String text,
-//   Color textColor = AppColors.black,
-//   double radious = 16.0,
-//   double padding = 16.0,
-//   ontap,
-//   Color color = AppColors.yellow,
-// }) {
-//   return InkWell(
-//     onTap: ontap,
-//     child: Container(
-//       padding: EdgeInsets.symmetric(horizontal: padding, vertical: 8),
-//       decoration: BoxDecoration(
-//         color: color,
-//         borderRadius: BorderRadius.circular(radious),
-//       ),
-//       child: commonText(
-//         text,
-//         size: 12.0,
-//         color: textColor,
-//         isBold: true,
-//         textAlign: TextAlign.center,
-//       ),
-//     ),
-//   );
-// }
+Widget commonImageErrorWidget({
+  double width = double.infinity,
+  
+  double iconSize = 48,
+  String message = "Image\nnot available",
+}) {
+  return Container(
+    width: width,
+    
+padding: EdgeInsets.all(16),
+    color: Colors.grey.shade300,
+    child: Stack(
+alignment: Alignment.center,
+      children: [
+        Icon(Icons.broken_image, size: iconSize, color: Colors.grey),
+   
+        commonText(
+          message,textAlign: TextAlign.center,
+          isBold: true
+
+        ),
+      ],
+    ),
+  );
+}
+
 
 Widget buildOTPTextField(
   TextEditingController controller,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/favorite/add_favorite_controller.dart';
 import 'package:food_recipes_afame/controller/home/home_controller.dart';
 import 'package:food_recipes_afame/models/recipi_model.dart';
 import 'package:food_recipes_afame/view/HomePage/notifications_view.dart';
@@ -267,9 +268,16 @@ class _HomeViewState extends State<HomeView> {
             difficulty: data[index].difficultyLevel,
             isFavorite: data[index].isFavorite,
             onFavoriteTap: () {
-              setState(() {
-                data[index].isFavorite = !data[index].isFavorite;
+              
+              Get.put(FavoriteRecipeController()).addRecipeToFavorites(data[index].id,data[index].isFavorite).then((value) {
+                if(value){
+                      setState(() {
+                data[index].isFavorite =!data[index].isFavorite  ;
               });
+                }
+              },);
+              
+          
             },
             onTap: () {
               navigateToPage(RecipeDetailsView(id: data[index].id));

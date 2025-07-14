@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/favorite/add_favorite_controller.dart';
 import 'package:food_recipes_afame/controller/home/recipe_details_controller.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
+import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/view/shared/commonDesigns.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
@@ -16,33 +19,14 @@ class RecipeDetailsView extends StatefulWidget {
 }
 
 class _RecipeDetailsViewState extends State<RecipeDetailsView> {
-  final List<String> instructions = [
-    'Prepare all ingredients by washing and chopping as needed',
-    'Heat the cooking vessel and add oil or butter',
-    'Add aromatics and cook until fragrant',
-    'Add main ingredients and cook according to the recipe',
-    'Season to taste and adjust flavors',
-    'Serve hot with appropriate accompaniments',
-  ];
 
-  final List<Map<String, dynamic>> relatedRecipes = List.generate(
-    3,
-    (index) => {
-      "imageUrl":
-          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
-      "region": "Middle East",
-      "title": "Moroccan Chicken Tagine",
-      "time": "25 Min",
-      "difficulty": "Easy",
-      "isFavorite": false,
-    },
-  );
 
   @override
   Widget build(BuildContext context) {
     final RecipeDetailController controller = Get.put(
       RecipeDetailController(id: widget.id),
     );
+
     return Obx(() {
       if (controller.isLoading.value || controller.recipeDetail.value == null) {
         return Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -55,7 +39,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
               Stack(
                 children: [
                   Image.network(
-                    controller.recipeDetail.value!.image,
+                    controller.recipeDetail.value!.image,  errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),
                     width: double.infinity,
                     height: 280,
                     fit: BoxFit.cover,
@@ -290,25 +274,28 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                           height: 230,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: relatedRecipes.length,
+                            itemCount: controller.relatedRecipes.length,
                             separatorBuilder:
                                 (_, __) => const SizedBox(width: 12),
                             itemBuilder: (context, index) {
-                              final item = relatedRecipes[index];
+                            
                               return SizedBox(
                                 width: 180,
                                 child: RecipeCard(
-                                  imageUrl: item['imageUrl']!,
-                                  region: item['region']!,
-                                  title: item['title']!,
-                                  time: item['time']!,
-                                  difficulty: item['difficulty']!,
-                                  isFavorite: item["isFavorite"]!,
+                                  imageUrl: controller.relatedRecipes[index].image,
+                                  region: controller.relatedRecipes[index].origin,
+                                  title: controller.relatedRecipes[index].recipeName,
+                                  time: controller.relatedRecipes[index].createdAt.toString(),
+                                  difficulty: controller.relatedRecipes[index].difficultyLevel,
+                                  isFavorite: controller.relatedRecipes[index].isFavorite,
                                   onFavoriteTap: () {
-                                    setState(() {
-                                      relatedRecipes[index]['isFavorite'] =
-                                          !relatedRecipes[index]['isFavorite'];
-                                    });
+                                  Get.put(FavoriteRecipeController()).addRecipeToFavorites(controller.relatedRecipes[index].id,controller.relatedRecipes[index].isFavorite).then((value) {
+              if(value){
+              setState(() {
+                controller.relatedRecipes[index].isFavorite =!controller.relatedRecipes[index].isFavorite ;
+              });
+                }
+              },);
                                   },
                                   onTap: () {
                                     navigateToPage(
@@ -332,7 +319,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                             child: Column(
                               children: [
                                 Image.network(
-                                  "https://th.bing.com/th/id/OIP.yy3jF0Tt5iILVLWk-Avm9AHaEK?cb=iwp2&rs=1&pid=ImgDetMain",
+                                    controller.imageUrl.value,
+          errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),
                                   height: 160,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -351,7 +339,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: commonButton(
-                                    "Explore North African Recipe",
+                                    "Explore ${controller.recipeDetail.value?.origin} Recipe",
                                     color: Colors.transparent,
                                     textColor: Colors.black,
                                     boarder: Border.all(
@@ -360,7 +348,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                                     ),
                                     boarderRadious: 16.0,
                                     onTap: () {
-                                      // TODO: Navigate to regional recipe list
+                                      RootView.currentIndex=1;
+                                      navigateToPage(RootView(),clearStack: true);
                                     },
                                   ),
                                 ),

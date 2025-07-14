@@ -1,34 +1,34 @@
-class SubscriptionModel {
+class MySubscriptionModel {
   final bool success;
   final int statusCode;
   final String message;
-  final SubscriptionData? data;
+  final MySubscriptionData? data;
 
-  SubscriptionModel({
+  MySubscriptionModel({
     required this.success,
     required this.statusCode,
     required this.message,
     required this.data,
   });
 
-  factory SubscriptionModel.fromJson(Map<String, dynamic> json) {
-    return SubscriptionModel(
+  factory MySubscriptionModel.fromJson(Map<String, dynamic> json) {
+    return MySubscriptionModel(
       success: json['success'],
       statusCode: json['statusCode'],
       message: json['message'],
-      data: SubscriptionData.fromJson(json['data']),
+      data: MySubscriptionData.fromJson(json['data']),
     );
   }
 }
 
-class SubscriptionData {
+class MySubscriptionData {
   final String id;
   final String userId;
   final String subscriptionId;
   final DateTime expiryIn;
   final int remainingDrivers;
 
-  SubscriptionData({
+  MySubscriptionData({
     required this.id,
     required this.userId,
     required this.subscriptionId,
@@ -36,8 +36,8 @@ class SubscriptionData {
     required this.remainingDrivers,
   });
 
-  factory SubscriptionData.fromJson(Map<String, dynamic> json) {
-    return SubscriptionData(
+  factory MySubscriptionData.fromJson(Map<String, dynamic> json) {
+    return MySubscriptionData(
       id: json['_id'],
       userId: json['userId'],
       subscriptionId: json['subscriptionId'],
