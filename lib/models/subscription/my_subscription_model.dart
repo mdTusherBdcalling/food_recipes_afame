@@ -16,7 +16,9 @@ class MySubscriptionModel {
       success: json['success'],
       statusCode: json['statusCode'],
       message: json['message'],
-      data: MySubscriptionData.fromJson(json['data']),
+      data: json['data'] != null
+          ? MySubscriptionData.fromJson(json['data'])
+          : null,
     );
   }
 }
@@ -24,7 +26,7 @@ class MySubscriptionModel {
 class MySubscriptionData {
   final String id;
   final String userId;
-  final String subscriptionId;
+  final SubscriptionPlan subscriptionId;
   final DateTime expiryIn;
   final int remainingDrivers;
 
@@ -40,9 +42,47 @@ class MySubscriptionData {
     return MySubscriptionData(
       id: json['_id'],
       userId: json['userId'],
-      subscriptionId: json['subscriptionId'],
+      subscriptionId: SubscriptionPlan.fromJson(json['subscriptionId']),
       expiryIn: DateTime.parse(json['expiryIn']),
       remainingDrivers: json['remainingDrivers'],
+    );
+  }
+}
+
+class SubscriptionPlan {
+  final String id;
+  final String planCategory;
+  final String planName;
+  final String shortBio;
+  final int price;
+  final int timeline;
+  final List<String> facilities;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  SubscriptionPlan({
+    required this.id,
+    required this.planCategory,
+    required this.planName,
+    required this.shortBio,
+    required this.price,
+    required this.timeline,
+    required this.facilities,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory SubscriptionPlan.fromJson(Map<String, dynamic> json) {
+    return SubscriptionPlan(
+      id: json['_id'],
+      planCategory: json['planCategory'],
+      planName: json['planName'],
+      shortBio: json['shortBio'],
+      price: json['price'],
+      timeline: json['timeline'],
+      facilities: List<String>.from(json['facilities']),
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 }

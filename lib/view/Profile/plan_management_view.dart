@@ -86,9 +86,9 @@ class PlanManagementView extends StatelessWidget {
                 children: [
                   _buildInfoRow("Next Billing Date", (data!=null)? DateFormat('MMMM dd, yyyy').format(data!.expiryIn):"Subscription Expired"),
                   const Divider(),
-                  _buildInfoRow("Plan", "Premium"),
+                  _buildInfoRow("Plan",(data!=null)?data!.subscriptionId.planName:"N/A" ),
                   const Divider(),
-                  _buildInfoRow("Amount", "\$9.99/month"),
+                  _buildInfoRow("Amount", (data!=null)?"\$${data!.subscriptionId.price}/${data!.subscriptionId.planCategory}":"N/A"),
                   const Divider(),
                   const SizedBox(height: 16),
 
