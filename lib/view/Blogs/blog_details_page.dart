@@ -39,13 +39,13 @@ class _BlogDetailsPageState extends State<BlogDetailsPage> {
               Container(
                 constraints: BoxConstraints(
                   minHeight: 350,
-                  maxHeight: MediaQuery.sizeOf(context).width * 0.9,
+                          
                 ),
-                width: double.infinity,
+              
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.image),
+                    image: NetworkImage((widget.image)),onError: (exception, stackTrace) => commonImageErrorWidget(),
                     fit: BoxFit.cover,
                   ),
                 ),

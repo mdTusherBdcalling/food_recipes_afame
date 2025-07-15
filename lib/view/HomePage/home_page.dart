@@ -119,22 +119,7 @@ class _HomeViewState extends State<HomeView> {
                 onTap: () {
                   // TODO: Navigate to notifications
                   navigateToPage(
-                    NotificationsView(
-                      notifications: [
-                        {
-                          "message": "New recipe is available here!",
-                          "time": "16 minutes ago",
-                        },
-                        {
-                          "message": "New recipe is available here!",
-                          "time": "16 minutes ago",
-                        },
-                        {
-                          "message": "New recipe is available here!",
-                          "time": "16 minutes ago",
-                        },
-                      ],
-                    ),
+                    NotificationsView(),
                   );
                 },
                 child: Container(

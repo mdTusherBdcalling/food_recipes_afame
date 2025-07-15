@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/controller/SigninController.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/view/Authentication/signup_view.dart';
 import 'package:food_recipes_afame/view/Authentication/forget_password_view.dart';
@@ -7,10 +8,104 @@ import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:food_recipes_afame/utils/image_paths.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 
-class SigninView extends StatelessWidget {
+class SigninView extends StatefulWidget {
   SigninView({Key? key}) : super(key: key);
 
+  @override
+  State<SigninView> createState() => _SigninViewState();
+}
+
+class _SigninViewState extends State<SigninView> {
   final SigninController controller = Get.put(SigninController());
+
+
+  final emailController = TextEditingController(
+    text: "amina.rahman@example.com",
+  );
+  final passwordController = TextEditingController(text: "hello123");
+
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showSavedAccountsBottomSheet(context);
+    });
+  }
+
+  void showSavedAccountsBottomSheet(BuildContext context) async {
+    final savedLogins = await LocalStorageService().getSavedLogins();
+    if (savedLogins.isEmpty) return;
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Container(
+            height: 300,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      const Icon(Icons.person, color: AppColors.primary),
+                      const SizedBox(width: 8),
+                      commonText("Select an account", size: 16, isBold: true),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ...savedLogins.entries.map((entry) {
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ListTile(
+                        leading: const Icon(Icons.account_circle_rounded,
+                            color: AppColors.primary, size: 30),
+                        title: commonText(entry.key, size: 14, isBold: true),
+                        subtitle: const Text("••••••••"),
+                        trailing: IconButton(
+                          icon:
+                              const Icon(Icons.delete, color: Colors.redAccent),
+                          onPressed: () async {
+                            await LocalStorageService().removeLogin(entry.key);
+                            Navigator.pop(context);
+                            showSavedAccountsBottomSheet(context); // refresh
+                          },
+                        ),
+                        onTap: () {
+                          controller.login(email: emailController.text.trim(), password: passwordController.text.trim());
+                        },
+                      ),
+                    );
+                  }).toList(),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +141,7 @@ class SigninView extends StatelessWidget {
                 const SizedBox(height: 16),
                 commonTextfieldWithTitle(
                   'Email',
-                  controller.emailController,
+                  emailController,
                   assetIconPath: ImagePaths.email,
                   hintText: "Enter your email",
                   enable: true,
@@ -55,7 +150,7 @@ class SigninView extends StatelessWidget {
                 const SizedBox(height: 16),
                 commonTextfieldWithTitle(
                   'Password',
-                  controller.passwordController,
+                  passwordController,
                   assetIconPath: ImagePaths.lock,
                   hintText: "Enter your password",
                   enable: true,
@@ -90,7 +185,7 @@ class SigninView extends StatelessWidget {
                 commonButton(
                   "Sign In",
                   onTap: () {
-                    controller.login();
+                    controller.login(email: emailController.text.trim(), password: passwordController.text.trim());
                   },
                 ),
                 const SizedBox(height: 32),

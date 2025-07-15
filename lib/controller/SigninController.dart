@@ -13,10 +13,6 @@ class SigninController extends GetxController {
   final ApiService _apiService = ApiService();
   final LocalStorageService _localStorageService = LocalStorageService();
 
-  final emailController = TextEditingController(
-    text: "amina.rahman@example.com",
-  );
-  final passwordController = TextEditingController(text: "hello123");
 
   RxBool isLoading = false.obs;
   RxBool isPasswordVisible = false.obs;
@@ -30,9 +26,7 @@ class SigninController extends GetxController {
     rememberMe.value = val ?? false;
   }
 
-  Future<void> login() async {
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
+  Future<void> login({required String email,required String password}) async {
 
     if (email.isEmpty || password.isEmpty) {
       commonSnackbar(
@@ -56,6 +50,10 @@ class SigninController extends GetxController {
 
       // Save token
       await _localStorageService.saveToken(accessToken);
+      await _localStorageService.saveUserId(loginData.data.user.id);
+       if (rememberMe.value) {
+          LocalStorageService().saveLoginToLocal(email, password);
+        }
 
       // Navigate to root/home screen
       Get.offAll(() => RootView());

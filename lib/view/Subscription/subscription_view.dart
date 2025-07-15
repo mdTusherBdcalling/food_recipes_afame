@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:food_recipes_afame/controller/payment/payment_controller.dart';
 import 'package:food_recipes_afame/controller/subscription/subscription_controller.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
+import 'package:food_recipes_afame/stripe.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
-import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
@@ -320,11 +322,25 @@ class _SubscriptionViewState extends State<SubscriptionView> {
               : Colors.grey.shade300,
           button: commonButton(
             plan.price == 0 ? "Start Free" : "Subscribe Now",
-            onTap: () {
+            onTap: () async{
               if (widget.fromSignup || plan.price == 0) {
-                navigateToPage(RootView());
+                
+                Get.put(SubscriptionPurchaseController()).purchaseSubscription(plan.id);
+                // navigateToPage(RootView());
               } else {
-                // TODO: Implement payment or upgrade logic
+                String userId= await LocalStorageService().getUserId()??"";
+                startCardPayment(context: context, amount: plan.price.toString(), currency: "EUR",subscriptionId: plan.id,userId:userId)
+                    .then((paymentId) {
+                  // if (paymentId != null) {
+                  //   // Get.put(SubscriptionPurchaseController())
+                  //   //     .purchaseSubscription(plan.id);
+                  // } else {
+                  //   commonSnackbar(
+                  //     title: "Payment Failed",
+                  //     message: "Please try again.",
+                  //   );
+                  // }
+                });
               }
             },
           ),

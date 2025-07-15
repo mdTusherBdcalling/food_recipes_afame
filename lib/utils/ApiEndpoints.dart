@@ -151,4 +151,10 @@ static String getBlogs({int? page, int? limit}) {
 }
   static const String updateBlog = 'blog/'; // Append blog ID dynamically
   static const String deleteBlog = 'blog/';
+
+  //notification Endpoints
+  static const String notifications = 'notification';
+
+  //payment Endpoints
+  static const String purchaseFreeSubscription = 'payment/purchase_free_subscription';
 }

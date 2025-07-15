@@ -71,7 +71,7 @@ final BlogController controller=Get.put(BlogController());
       height: 200,
       child: Stack(
         children: [
-          PageView.builder(
+           if(controller.blogs.isNotEmpty)  PageView.builder(
             controller: _pageController,
             itemCount: max(controller.blogs.length,4),
             onPageChanged: (page) {
@@ -84,7 +84,7 @@ final BlogController controller=Get.put(BlogController());
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  ClipRRect(
+               ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(controller.blogs[index].image, fit: BoxFit.cover,  errorBuilder: (context, error, stackTrace) => commonImageErrorWidget(),),
                   ),

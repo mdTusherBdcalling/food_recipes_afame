@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_recipes_afame/keys.dart';
 import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
 import 'package:get/get.dart';
 
-void main() {
+
+void main() async{
+    WidgetsFlutterBinding.ensureInitialized();
+
+  Stripe.publishableKey = publishableKey;
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+
+
+    @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
