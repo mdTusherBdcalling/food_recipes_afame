@@ -30,7 +30,7 @@ Future<bool> startCardPayment({
       Uri.parse("https://api.stripe.com/v1/payment_intents"),
       body: paymentInfo,
       headers: {
-        "Authorization": "Bearer $secretKey",
+        "Authorization": "Bearer $thissecretKey",
         "Content-Type": "application/x-www-form-urlencoded",
       },
     );
