@@ -3,12 +3,14 @@ class EmailVerifyResponseModel {
   final int statusCode;
   final String message;
   final UserData data;
+  final String token;
 
   EmailVerifyResponseModel({
     required this.success,
     required this.statusCode,
     required this.message,
     required this.data,
+    required this.token,
   });
 
   factory EmailVerifyResponseModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,8 @@ class EmailVerifyResponseModel {
       statusCode: json['statusCode'],
       message: json['message'],
       data: UserData.fromJson(json['data']['user']),
+      token: json['data']['accessToken'] ?? "",
+
     );
   }
 }

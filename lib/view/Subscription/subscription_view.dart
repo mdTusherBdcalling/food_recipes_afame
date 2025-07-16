@@ -6,6 +6,7 @@ import 'package:food_recipes_afame/controller/subscription/subscription_controll
 import 'package:food_recipes_afame/services/local_storage_service.dart';
 import 'package:food_recipes_afame/stripe.dart';
 import 'package:food_recipes_afame/utils/colors.dart';
+import 'package:food_recipes_afame/view/root_view.dart';
 import 'package:food_recipes_afame/view/shared/commonWidgets.dart';
 import 'package:get/get.dart';
 
@@ -325,12 +326,16 @@ class _SubscriptionViewState extends State<SubscriptionView> {
             onTap: () async{
               if (widget.fromSignup || plan.price == 0) {
                 
-                Get.put(SubscriptionPurchaseController()).purchaseSubscription(plan.id);
-                // navigateToPage(RootView());
+                Get.put(SubscriptionPurchaseController()).purchaseSubscription(plan.id).then(
+                  (value) {
+                    if(value && widget.fromSignup){ navigateToPage(RootView());}
+                  },
+                );
+                
               } else {
                 String userId= await LocalStorageService().getUserId()??"";
                 startCardPayment(context: context, amount: plan.price.toString(), currency: "EUR",subscriptionId: plan.id,userId:userId)
-                    .then((paymentId) {
+                    .then((value) {
                   // if (paymentId != null) {
                   //   // Get.put(SubscriptionPurchaseController())
                   //   //     .purchaseSubscription(plan.id);
@@ -340,6 +345,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                   //     message: "Please try again.",
                   //   );
                   // }
+                 if(value && widget.fromSignup){ navigateToPage(RootView());}
                 });
               }
             },
