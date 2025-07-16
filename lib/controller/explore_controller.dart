@@ -11,7 +11,7 @@ class ExploreController extends GetxController {
   RxList<RecipeModel> allRecipes = <RecipeModel>[].obs;
 
   int currentPage = 1;
-  final int pageLimit = 4;
+  final int pageLimit = 10;
   bool hasMore = true;
 
   String? searchTerm;

@@ -18,7 +18,9 @@ class RecipeDetailModel {
       success: json['success'],
       statusCode: json['statusCode'],
       message: json['message']??"",
-      data: RecipeDetail.fromJson(json['data']),
+  data: json['data'] != null
+        ? RecipeDetail.fromJson(json['data'])
+        : RecipeDetail.empty(),
     );
   }
 }
@@ -69,7 +71,7 @@ class RecipeDetail {
       music: json['music']??"",
       recipeName: json['recipeName']??"",
       estimateTime: json['estimateTime']??"",
-      difficultyLevel: json['difficultyLevel']??"",
+      difficultyLevel: json['difficultyLevel']??"easy",
       origin: json['origin']??"",
       description: json['description']??"",
       ingredients: json['ingredients']??"",
@@ -79,10 +81,35 @@ class RecipeDetail {
       isAccepted: json['isAccepted']??false,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      clickCount: json['clickCount'],
+      clickCount: json['clickCount']??0,
       isFavorite: json["isFavorite"]??false
     );
+
+    
   }
+
+  factory RecipeDetail.empty() {
+  return RecipeDetail(
+    id: '',
+    userId: User(id: '', name: ''),
+    music: '',
+    recipeName: '',
+    estimateTime: '',
+    difficultyLevel: 'easy',
+    origin: '',
+    description: '',
+    ingredients: '',
+    instruction: '',
+    cultureBackground: '',
+    image: '',
+    isAccepted: false,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    clickCount: 0,
+    isFavorite: false,
+  );
+}
+
 }
 
 class User {
@@ -92,6 +119,6 @@ class User {
   User({required this.id, required this.name});
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['_id'], name: json['name']);
+    return User(id: json['_id']??"", name: json['name']??"");
   }
 }
