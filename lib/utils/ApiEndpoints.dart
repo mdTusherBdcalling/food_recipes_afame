@@ -1,8 +1,8 @@
 class ApiEndpoints {
   static const String baseUrl =
-      'http://10.10.10.30:8059/api/v1/'; // Replace with actual base URL
+      'http://172.252.13.74:8059/api/v1/'; // Replace with actual base URL
   static const String baseImageUrl =
-      'http://10.10.10.30:8059'; // Replace with actual base image URL
+      'http://172.252.13.74:8059'; // Replace with actual base image URL
 
   // Auth Endpoints
   static const String register = 'auth/register';
