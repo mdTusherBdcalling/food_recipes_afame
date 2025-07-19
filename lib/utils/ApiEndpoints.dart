@@ -77,7 +77,7 @@ static String allRecipes({
     if (searchTerm != null && searchTerm.isNotEmpty) 'searchTerm': searchTerm,
     if (origin != null && origin.isNotEmpty) 'origin': origin,
     if (difficultyLevel != null && difficultyLevel.isNotEmpty)
-      'difficultyLevel': difficultyLevel,
+      'filter': difficultyLevel,
     if (sort != null && sort.isNotEmpty) 'sort': sort,
   };
 

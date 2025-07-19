@@ -19,44 +19,6 @@ class BlogsView extends StatefulWidget {
 class _BlogsViewState extends State<BlogsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-
-  // final List<Map<String, String>> blogBanners = [
-  //   {
-  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  //     "title": "Learn How to Become a Great Writer Right Now!",
-  //     "description":
-  //         "Explore the rich history and impact of spices on cuisines around the world.",
-  //     "date": "Jan 27, 2025",
-  //     "comments": "5 Comments",
-  //   },
-  //   {
-  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  //     "title": "Cooking Secrets From The Pros You Should Know",
-  //     "description":
-  //         "Explore the rich history and impact of spices on cuisines around the world.",
-  //     "date": "Jan 27, 2025",
-  //     "comments": "5 Comments",
-  //   },
-  //   {
-  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  //     "title": "Top 10 Healthy Recipes for Every Season",
-  //     "description":
-  //         "Explore the rich history and impact of spices on cuisines around the world.",
-  //     "date": "Jan 27, 2025",
-  //     "comments": "5 Comments",
-  //   },
-  //   {
-  //     "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  //     "title": "Top 10 Healthy Recipes for Every Season",
-  //     "description":
-  //         "Explore the rich history and impact of spices on cuisines around the world.",
-  //     "date": "Jan 27, 2025",
-  //     "comments": "5 Comments",
-  //   },
-  // ];
-
-
-
 final BlogController controller=Get.put(BlogController());
 
 
@@ -237,6 +199,7 @@ final BlogController controller=Get.put(BlogController());
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
+            controller: controller.scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,30 +207,34 @@ final BlogController controller=Get.put(BlogController());
                 const SizedBox(height: 24),
                 commonText("Recent Blogs", size: 18, isBold: true),
                 const SizedBox(height: 12),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: controller.blogs.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.75,
-                  ),
-                  itemBuilder:
-                      (context, index) => InkWell(
-                        onTap: () {
-                          navigateToPage(
-                            BlogDetailsPage(title: controller.blogs[index].headline,
-                            description:  controller.blogs[index].description,
-                            image:  controller.blogs[index].image,
-                             date:     DateFormat('MMMM d, y').format(DateTime.parse(controller.blogs[index].createdAt.toString()))
-                            
-                            ),
-                          );
-                        },
-                        child: _buildBlogCard(controller.blogs[index]),
+                Obx(
+                  () {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: controller.blogs.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                        childAspectRatio: 0.75,
                       ),
+                      itemBuilder:
+                          (context, index) => InkWell(
+                            onTap: () {
+                              navigateToPage(
+                                BlogDetailsPage(title: controller.blogs[index].headline,
+                                description:  controller.blogs[index].description,
+                                image:  controller.blogs[index].image,
+                                 date:     DateFormat('MMMM d, y').format(DateTime.parse(controller.blogs[index].createdAt.toString()))
+                                
+                                ),
+                              );
+                            },
+                            child: _buildBlogCard(controller.blogs[index]),
+                          ),
+                    );
+                  }
                 ),
               ],
             ),

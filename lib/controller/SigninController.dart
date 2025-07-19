@@ -51,6 +51,7 @@ class SigninController extends GetxController {
       // Save token
       await _localStorageService.saveToken(accessToken);
       await _localStorageService.saveUserId(loginData.data.user.id);
+      await LocalStorageService().saveName(loginData.data.user.name);
        if (rememberMe.value) {
           LocalStorageService().saveLoginToLocal(email, password);
         }

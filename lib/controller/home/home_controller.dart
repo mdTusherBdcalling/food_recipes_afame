@@ -1,5 +1,6 @@
 import 'package:food_recipes_afame/models/home/tending_model.dart';
 import 'package:food_recipes_afame/models/recipi_model.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
 import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
@@ -9,15 +10,25 @@ class HomeController extends GetxController {
   RxList<RelatedRecipeItem> trendingRecipes = <RelatedRecipeItem>[].obs;
   RxList<RecipeModel> recommendedRecipes = <RecipeModel>[].obs;
   RxList<RecipeModel> heritageRecipes = <RecipeModel>[].obs;
-
+RxString name="".obs;
   @override
   void onInit() {
     super.onInit();
     fetchAllRecipes();
     fetchTrendingRecipes();
     fetchHeritageRecipes();
+    loadName();
   }
 
+
+  Future<void> loadName() async {
+    String? savedName = await LocalStorageService().getName();
+    if (savedName != null) {
+      name.value = savedName;
+    } else {
+      name.value = "User"; // Default value if no name is saved
+    }
+  }
   Future<void> fetchAllRecipes() async {
     isLoading.value = true;
     await Future.wait([

@@ -22,18 +22,38 @@ class RecipesController extends GetxController {
   ];
   final List<String> sortOptions = ['Popular', 'Newest'];
 
+
+ScrollController scrollController = ScrollController();
+
+  int currentPage = 1;
+  final int pageLimit = 10;
+  bool hasMore = true;
+
+
   @override
   void onInit() {
     super.onInit();
     fetchRecipes();
+        scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent - 100 &&
+          !isLoading.value &&
+          hasMore) {
+        currentPage++;
+        fetchRecipes();
+      }
+    });
   }
 
   Future<void> fetchRecipes() async {
+      if (!hasMore) return;
     isLoading.value = true;
     try {
       final response = await ApiService().get(
         ApiEndpoints.allRecipes(
           searchTerm: searchController.text,
+          page: currentPage,
+          limit: pageLimit,
           difficultyLevel: selectedDifficulty == 'All Difficulties'
               ? null
               : selectedDifficulty,
@@ -46,8 +66,12 @@ class RecipesController extends GetxController {
       );
 
       final resultList = response['data']['result'] as List;
-      allRecipes.value =
-          resultList.map((e) => RecipeModel.fromJson(e)).toList();
+
+        if (resultList.isEmpty || resultList.length < pageLimit) {
+        hasMore = false;
+      }
+      allRecipes.addAll(
+          resultList.map((e) => RecipeModel.fromJson(e)).toList());
     } catch (e) {
       print("Error fetching recipes: $e");
     } finally {
@@ -57,16 +81,25 @@ class RecipesController extends GetxController {
 
   void onDifficultyChanged(String value) {
     selectedDifficulty = value;
+    resetPagination();
     fetchRecipes();
   }
 
   void onSortChanged(String value) {
     selectedSort = value;
+    resetPagination();
     fetchRecipes();
   }
 
   void onSearchChanged() {
+    resetPagination();
     fetchRecipes();
+  }
+
+    void resetPagination() {
+    currentPage = 1;
+    hasMore = true;
+    allRecipes.clear();
   }
 
   void toggleFavorite(int index) {

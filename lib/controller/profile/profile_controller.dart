@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:food_recipes_afame/models/subscription/my_subscription_model.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:food_recipes_afame/services/api_service.dart';
 import 'package:food_recipes_afame/utils/ApiEndpoints.dart';
@@ -23,7 +24,7 @@ class ProfileController extends GetxController {
       final profileResponse = await _apiService.get(ApiEndpoints.myProfile);
       final profileModel = UserProfileModel.fromJson(profileResponse);
       user.value = profileModel.data;
-
+await LocalStorageService().saveName(profileModel.data.name);
       // Fetch subscription details
       final subResponse = await _apiService.get(ApiEndpoints.mySubscription);
       final subModel = MySubscriptionModel.fromJson(subResponse);

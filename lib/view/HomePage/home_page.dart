@@ -20,22 +20,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-  // final List<Map<String, dynamic>> trending = [
-  //   {
-  //     "title": "Healthy Taco Salad with fresh vegetable",
-  //     "imageUrl": "https://via.placeholder.com/300x180.png?text=Taco+Salad",
-  //     "author": "Olivia Rizka",
-  //     "time": "12 Min",
-  //     "isFavorite": false,
-  //   },
-  //   {
-  //     "title": "Asian white with extra vegetables",
-  //     "imageUrl": "https://via.placeholder.com/300x180.png?text=Asian+Veg",
-  //     "author": "James",
-  //     "time": "18 Min",
-  //     "isFavorite": false,
-  //   },
-  // ];
+
+
 
   final HomeController homeController = Get.put(HomeController());
   @override
@@ -102,11 +88,15 @@ class _HomeViewState extends State<HomeView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(
-                    "Hello, Wolfino!",
-                    size: 22,
-                    isBold: true,
-                    color: Colors.black87,
+                  Obx(
+                    () {
+                      return commonText(
+                        "Hello, ${homeController.name.value}",
+                        size: 22,
+                        isBold: true,
+                        color: Colors.black87,
+                      );
+                    }
                   ),
                   commonText(
                     "Let’s explore our recipes",

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/controller/favorite/favorite_controller.dart';
 import 'package:get/get.dart';
@@ -21,6 +23,7 @@ class FavoritesView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Obx(() {
             return SingleChildScrollView(
+              controller: controller.scrollController,
               child: Column(
                 children: [
       
@@ -80,7 +83,7 @@ class FavoritesView extends StatelessWidget {
 
 
 
-                  controller.isLoading.value
+                  controller.isLoading.value && controller.currentPage == 1
                       ? const CircularProgressIndicator()
                       :(controller.allRecipes.isEmpty)?_buildEmptyState(): _buildRecipeGrid(),
                 ],
@@ -106,6 +109,7 @@ class FavoritesView extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           final item = controller.allRecipes[index];
+          log(item.isFavorite.toString());
           return RecipeCard(
             imageUrl: item.image,
             region: item.origin,

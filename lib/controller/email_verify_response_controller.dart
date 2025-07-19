@@ -66,6 +66,7 @@ class EmailVerifyController extends GetxController {
           backgroundColor: Colors.green,
         );
         await LocalStorageService().saveToken(verifyResponse.token);
+        await LocalStorageService().saveName(verifyResponse.data.name);
         Get.to(() => CompleateQuestionnaireFlow(fromSignup: true));
       } else {
         commonSnackbar(

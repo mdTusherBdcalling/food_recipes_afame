@@ -22,6 +22,7 @@ class RecipesView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Obx(() {
             return SingleChildScrollView(
+              controller: controller.scrollController,
               child: Column(
                 children: [
                   commonButton(
@@ -89,7 +90,9 @@ class RecipesView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  controller.isLoading.value
+                  
+                  
+                  (controller.isLoading.value && controller.currentPage == 1)
                       ? const CircularProgressIndicator()
                       : _buildRecipeGrid(),
                 ],

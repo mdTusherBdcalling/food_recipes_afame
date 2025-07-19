@@ -39,6 +39,13 @@ class EditProfileController extends GetxController {
       );
       return;
     }
+     if(phone.length < 10 || phone.length > 15){
+      commonSnackbar(
+        title: 'Validation Error',
+        message: 'Phone number must be at least 10 digits and at most 15 digits',
+      );
+      return;
+    }
 
     isLoading.value = true;
 

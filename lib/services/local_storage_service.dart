@@ -6,6 +6,26 @@ class LocalStorageService {
   static const _tokenKey = 'token';
   static const _userId = 'userId';
     static const _savedLogins = 'saved_logins';
+    static const name="name";
+
+
+  // Save token
+  Future<void> saveName(String userName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(name, userName);
+  }
+
+  // Get token
+  Future<String?> getName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(name);
+  }
+
+
+
+
+
+
 
   // Save token
   Future<void> saveToken(String token) async {
@@ -36,13 +56,6 @@ class LocalStorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
   }
-
-  // Clear all preferences (optional)
-  Future<void> clearAll() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-  }
-
 
 
 

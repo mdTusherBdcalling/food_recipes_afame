@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipes_afame/controller/profile/profile_controller.dart';
+import 'package:food_recipes_afame/services/local_storage_service.dart';
+import 'package:food_recipes_afame/view/Authentication/signin_view.dart';
 import 'package:food_recipes_afame/view/Profile/edit_profile_view.dart';
 import 'package:food_recipes_afame/view/Profile/my_recipes_view.dart';
 import 'package:food_recipes_afame/view/Profile/plan_management_view.dart';
@@ -225,7 +227,8 @@ class ProfileView extends StatelessWidget {
                       isBold: true,
                     ),
                     onTap: () {
-                      // TODO: Logout action
+                      Get.offAll(SigninView());
+                      LocalStorageService().removeToken();
                     },
                   ),
                   Divider(color: Colors.black),
